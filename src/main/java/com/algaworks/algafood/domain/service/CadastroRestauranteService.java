@@ -21,7 +21,7 @@ public class CadastroRestauranteService {
 
     public Restaurante adicionar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = retornaCozinhaPorId(cozinhaId);
+        Cozinha cozinha = retornarCozinhaPorId(cozinhaId);
         trataCozinhaNaoExistente(cozinhaId, cozinha);
         restaurante.setCozinha(cozinha);
         return restauranteRepository.adicionar(restaurante);
@@ -29,7 +29,7 @@ public class CadastroRestauranteService {
 
     public Restaurante alterar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = retornaCozinhaPorId(cozinhaId);
+        Cozinha cozinha = retornarCozinhaPorId(cozinhaId);
         trataCozinhaNaoExistente(cozinhaId, cozinha);
 
         restaurante.setCozinha(cozinha);
@@ -50,7 +50,7 @@ public class CadastroRestauranteService {
         }
     }
 
-    private Cozinha retornaCozinhaPorId(Long cozinhaId) {
+    private Cozinha retornarCozinhaPorId(Long cozinhaId) {
         return cozinhaRepository.porId(cozinhaId);
     }
 

@@ -60,14 +60,13 @@ public class CozinhaController {
       cadastroCozinha.adicionar(cozinhaAtual);
       return ResponseEntity.ok(cozinhaAtual);
     }
-
     return ResponseEntity.notFound().build();
   }
 
   @DeleteMapping("/{cozinhaId}")
   public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId) {
     try {
-      cadastroCozinha.excluir(cozinhaId);
+      cadastroCozinha.remover(cozinhaId);
       return ResponseEntity.noContent().build();
     } catch (EntidadeNaoEncontradaException e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

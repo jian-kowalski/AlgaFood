@@ -36,8 +36,12 @@ public class RestauranteController {
     }
 
     @GetMapping("/{restauranteId}")
-    public Restaurante buscar(@PathVariable Long restauranteId) {
-        return restauranteRepository.porId(restauranteId);
+    public ResponseEntity<Restaurante> buscar(@PathVariable Long restauranteId) {
+        Restaurante restaurante = restauranteRepository.porId(restauranteId);
+        if (restaurante != null) {
+            return ResponseEntity.ok(restaurante);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping

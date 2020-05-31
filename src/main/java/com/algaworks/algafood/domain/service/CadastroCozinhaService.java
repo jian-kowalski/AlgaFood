@@ -20,7 +20,7 @@ public class CadastroCozinhaService {
         return cozinhaRepository.adicionar(cozinha);
     }
 
-    public void excluir(Long id){
+    public void remover(Long id){
         try {
             cozinhaRepository.remover(id);
         } catch (EmptyResultDataAccessException e) {
