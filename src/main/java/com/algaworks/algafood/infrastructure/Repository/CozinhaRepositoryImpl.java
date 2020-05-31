@@ -38,7 +38,6 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
         throw new EmptyResultDataAccessException(1);
       }
       eManager.remove(cozinha);
-    
   }
 
   @Override
