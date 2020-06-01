@@ -43,4 +43,5 @@ public class CadastroCidadeService {
         }
         cidadeRepository.remover(cidade);
     }
+
 }
