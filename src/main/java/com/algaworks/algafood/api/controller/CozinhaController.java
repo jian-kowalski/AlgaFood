@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
@@ -34,14 +35,14 @@ public class CozinhaController {
 
   @GetMapping
   public List<Cozinha> listar() {
-    return cozinhaRepository.todas();
+    return cozinhaRepository.findAll();
   }
 
   @GetMapping("/{cozinhaId}")
   public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
-    Cozinha cozinha = cozinhaRepository.porId(cozinhaId);
-    if (cozinha != null) {
-      return ResponseEntity.ok(cozinha);
+    Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
+    if (cozinha.isPresent()) {
+      return ResponseEntity.ok(cozinha.get());
     }
     return ResponseEntity.notFound().build();
   }
@@ -54,11 +55,11 @@ public class CozinhaController {
 
   @PutMapping("/{cozinhaId}")
   public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
-    Cozinha cozinhaAtual = cozinhaRepository.porId(cozinhaId);
-    if (cozinhaAtual != null) {
-      BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-      cadastroCozinha.adicionar(cozinhaAtual);
-      return ResponseEntity.ok(cozinhaAtual);
+    Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(cozinhaId);
+    if (cozinhaAtual.isPresent()) {
+      BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
+      Cozinha cozinhaSalva = cadastroCozinha.adicionar(cozinhaAtual.get());
+      return ResponseEntity.ok(cozinhaSalva);
     }
     return ResponseEntity.notFound().build();
   }

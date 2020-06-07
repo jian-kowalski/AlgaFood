@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cidade;
@@ -27,19 +28,19 @@ public class CidadeController {
     @Autowired
     private CidadeRepository cidadeRepository;
 
-    @Autowired 
+    @Autowired
     private CadastroCidadeService cadastroCidade;
 
     @GetMapping
     public List<Cidade> listar() {
-        return cidadeRepository.todas();
+        return cidadeRepository.findAll();
     }
 
     @GetMapping("/{cidadeId}")
     public ResponseEntity<Cidade> buscar(@PathVariable Long cidadeId) {
-        Cidade cidade = cidadeRepository.porId(cidadeId);
-        if (cidade != null) {
-            return ResponseEntity.ok(cidade);
+        Optional<Cidade> cidade = cidadeRepository.findById(cidadeId);
+        if (cidade.isPresent()) {
+            return ResponseEntity.ok(cidade.get());
         }
         return ResponseEntity.notFound().build();
 
@@ -58,11 +59,11 @@ public class CidadeController {
     @PutMapping("/{cidadeId}")
     public ResponseEntity<?> alterar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
         try {
-            Cidade cidadeAtual = cidadeRepository.porId(cidadeId);
-            if (cidadeAtual != null) {
-                BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-                cadastroCidade.adicionar(cidadeAtual);
-                return ResponseEntity.ok(cidadeAtual);
+            Optional<Cidade> cidadeAtual = cidadeRepository.findById(cidadeId);
+            if (cidadeAtual.isPresent()) {
+                BeanUtils.copyProperties(cidade, cidadeAtual.get(), "id");
+                cadastroCidade.adicionar(cidadeAtual.get());
+                return ResponseEntity.ok(cidadeAtual.get());
             }
             return ResponseEntity.notFound().build();
         } catch (EntidadeNaoEncontradaException e) {

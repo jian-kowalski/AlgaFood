@@ -24,7 +24,7 @@ public class CadastroRestauranteService {
         Cozinha cozinha = retornarCozinhaPorId(cozinhaId);
         trataCozinhaNaoExistente(cozinhaId, cozinha);
         restaurante.setCozinha(cozinha);
-        return restauranteRepository.adicionar(restaurante);
+        return restauranteRepository.save(restaurante);
     }
 
     public Restaurante alterar(Restaurante restaurante) {
@@ -33,12 +33,12 @@ public class CadastroRestauranteService {
         trataCozinhaNaoExistente(cozinhaId, cozinha);
 
         restaurante.setCozinha(cozinha);
-        return restauranteRepository.adicionar(restaurante);
+        return restauranteRepository.save(restaurante);
     }
 
     public void remover(Long id) {
         try {
-            restauranteRepository.remover(id);
+            restauranteRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(String.format("Restaurante não encontrado pra o código %d.", id));
         }
@@ -51,7 +51,8 @@ public class CadastroRestauranteService {
     }
 
     private Cozinha retornarCozinhaPorId(Long cozinhaId) {
-        return cozinhaRepository.porId(cozinhaId);
+        return cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new EntidadeNaoEncontradaException(
+                String.format("Cozinha não encontrada para o cód %d", cozinhaId)));
     }
 
 }
