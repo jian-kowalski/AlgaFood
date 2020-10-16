@@ -49,6 +49,11 @@ public class RestauranteController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/por-nome")
+    public List<Restaurante> restaurantePorNome(Long cozinhaId, String nome) {
+        return restauranteRepository.consultaPorNome(nome, cozinhaId);
+    }
+
     @PostMapping
     public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
         try {
