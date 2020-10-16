@@ -5,10 +5,11 @@ import java.util.List;
 
 import com.algaworks.algafood.domain.model.Restaurante;
 
-
 public interface RestauranteRepositoryQueries {
 
-  public List<Restaurante> find(String nome, 
-    BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
+  public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
+
+  public List<Restaurante> procurarPorNomeCozinhaTaxa(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
+      BigDecimal taxaFreteFinal);
 
 }

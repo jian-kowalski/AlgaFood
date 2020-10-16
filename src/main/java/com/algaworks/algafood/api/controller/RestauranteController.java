@@ -54,9 +54,17 @@ public class RestauranteController {
     public List<Restaurante> restaurantePorNome(Long cozinhaId, String nome) {
         return restauranteRepository.consultaPorNome(nome, cozinhaId);
     }
+
     @GetMapping("/por-nome-e-frente")
-    public List<Restaurante> restaurantePorNomeEFrente(String nome, BigDecimal taxaFreteInicial,BigDecimal taxaFreteFinal) {
+    public List<Restaurante> restaurantePorNomeEFrente(String nome, BigDecimal taxaFreteInicial,
+            BigDecimal taxaFreteFinal) {
         return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
+    }
+
+    @GetMapping("/por-nome-cozinha-taxa")
+    public List<Restaurante> procurarPorNomeCozinhaTaxa(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
+            BigDecimal taxaFreteFinal) {
+        return restauranteRepository.procurarPorNomeCozinhaTaxa(nome, cozinhaId, taxaFreteInicial, taxaFreteFinal);
     }
 
     @PostMapping
