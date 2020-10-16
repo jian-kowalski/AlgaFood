@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,6 +53,10 @@ public class RestauranteController {
     @GetMapping("/por-nome")
     public List<Restaurante> restaurantePorNome(Long cozinhaId, String nome) {
         return restauranteRepository.consultaPorNome(nome, cozinhaId);
+    }
+    @GetMapping("/por-nome-e-frente")
+    public List<Restaurante> restaurantePorNomeEFrente(String nome, BigDecimal taxaFreteInicial,BigDecimal taxaFreteFinal) {
+        return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
     }
 
     @PostMapping
