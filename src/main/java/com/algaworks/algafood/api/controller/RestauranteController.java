@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/restaurantes")
 public class RestauranteController {
@@ -94,7 +93,7 @@ public class RestauranteController {
         try {
             Optional<Restaurante> restauranteAtual = restauranteRepository.findById(restauranteId);
             if (restauranteAtual.isPresent()) {
-                BeanUtils.copyProperties(restaurante, restauranteAtual.get(), "id",  "formasPagamento");
+                BeanUtils.copyProperties(restaurante, restauranteAtual.get(), "id", "formasPagamento", "endereco");
                 cadastroRestaurante.adicionar(restauranteAtual.get());
                 return ResponseEntity.ok(restauranteAtual.get());
             }
