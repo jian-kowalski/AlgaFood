@@ -10,7 +10,6 @@ import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
-import com.algaworks.algafood.infrastructure.repository.spec.RestaurantesSpecs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.BeanUtils;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.var;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -55,19 +53,18 @@ public class RestauranteController {
 
     @GetMapping("/por-nome")
     public List<Restaurante> restaurantePorNome(Long cozinhaId, String nome) {
-        return restauranteRepository.consultaPorNome(nome, cozinhaId);
+        return restauranteRepository.procurarPorNomeECozinha(nome, cozinhaId);
     }
 
     @GetMapping("/por-nome-e-frente")
     public List<Restaurante> restaurantePorNomeEFrente(String nome, BigDecimal taxaFreteInicial,
             BigDecimal taxaFreteFinal) {
-        return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
+        return restauranteRepository.procurarPorNomeTaxaIncialTaxaFinal(nome, taxaFreteInicial, taxaFreteFinal);
     }
 
     @GetMapping("/com-frete-gratis")
     public List<Restaurante> ComFreteGratis(String nome) {
-        return restauranteRepository
-                .findAll(RestaurantesSpecs.comFreteGratis().and(RestaurantesSpecs.comNomeSemelhante(nome)));
+        return restauranteRepository.procurarPorFreteGratisENomeSemelhante(nome);
     }
 
     @GetMapping("/por-nome-cozinha-taxa")

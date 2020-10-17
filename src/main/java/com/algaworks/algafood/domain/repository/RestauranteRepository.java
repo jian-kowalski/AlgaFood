@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface RestauranteRepository
         extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
 
-    List<Restaurante> consultaPorNome(String nome, @Param("id") Long cozinhaId);
+    List<Restaurante> procurarPorNomeECozinha(String nome, @Param("id") Long cozinhaId);
 
 }

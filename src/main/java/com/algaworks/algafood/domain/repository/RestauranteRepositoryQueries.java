@@ -7,9 +7,11 @@ import com.algaworks.algafood.domain.model.Restaurante;
 
 public interface RestauranteRepositoryQueries {
 
-  public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
+  List<Restaurante> procurarPorNomeTaxaIncialTaxaFinal(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
 
-  public List<Restaurante> procurarPorNomeCozinhaTaxa(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
+  List<Restaurante> procurarPorNomeCozinhaTaxa(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
       BigDecimal taxaFreteFinal);
+
+  List<Restaurante> procurarPorFreteGratisENomeSemelhante(String nome);
 
 }

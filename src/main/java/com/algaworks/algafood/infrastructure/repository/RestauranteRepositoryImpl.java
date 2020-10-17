@@ -8,14 +8,15 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepositoryQueries;
+import com.algaworks.algafood.infrastructure.repository.spec.RestaurantesSpecs;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -27,8 +28,11 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
   @PersistenceContext
   private EntityManager manager;
 
+  @Autowired @Lazy
+  private RestauranteRepository restauranteRepository;
+
   @Override
-  public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
+  public List<Restaurante> procurarPorNomeTaxaIncialTaxaFinal(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
     var jpql = new StringBuilder();
 
     var parametros = new HashMap<String, Object>();
@@ -79,11 +83,17 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
     }
 
     if (cozinhaId != null) {
-      predicates.add(builder.equal(root.get("cozinha"),  + cozinhaId));
+      predicates.add(builder.equal(root.get("cozinha"), +cozinhaId));
     }
 
     criteria.where(predicates.toArray(new Predicate[0]));
     return manager.createQuery(criteria).getResultList();
 
+  }
+  
+  @Override
+  public List<Restaurante> procurarPorFreteGratisENomeSemelhante(String nome) {
+    return restauranteRepository
+        .findAll(RestaurantesSpecs.comFreteGratis().and(RestaurantesSpecs.comNomeSemelhante(nome)));
   }
 }
