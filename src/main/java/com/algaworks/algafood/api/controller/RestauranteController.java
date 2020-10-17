@@ -73,6 +73,12 @@ public class RestauranteController {
         return restauranteRepository.procurarPorNomeCozinhaTaxa(nome, cozinhaId, taxaFreteInicial, taxaFreteFinal);
     }
 
+    @GetMapping("/buscar-primeiro")
+    public Optional<Restaurante> buscarPrimeiro(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
+            BigDecimal taxaFreteFinal) {
+        return restauranteRepository.buscarPrimeiro();
+    }
+
     @PostMapping
     public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
         try {
