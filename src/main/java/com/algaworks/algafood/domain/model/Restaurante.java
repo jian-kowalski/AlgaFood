@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,6 +38,16 @@ public class Restaurante {
     
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
+    
+    @JsonIgnore
+    @CreationTimestamp
+    @Column(nullable = false, columnDefinition = "dateTime")
+    private LocalDateTime dataCadastro;
+
+    @JsonIgnore
+    @UpdateTimestamp
+    @Column(nullable = false, columnDefinition = "dateTime")
+    private LocalDateTime dataAtualizacao;
     
     @ManyToOne
 	@JoinColumn(name = "cozinha_id", nullable = false)

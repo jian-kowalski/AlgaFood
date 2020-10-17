@@ -22,9 +22,9 @@ insert into permissao (nome) values ('Total');
 insert into permissao (nome) values ('Media');  
 insert into permissao (nome) values ('Nenhuma');  
 
-INSERT INTO restaurante (endereco_bairo, endereco_cep, endereco_complemento, endereco_logradouro, endereco_numero, nome, taxa_frete, cozinha_id, endereco_cidade_id) VALUES('Centro', '85520-568', 'apto 1005', 'Pedro Ramires de mello', '1005', 'Da outra esquina', 20.00, 1, 1);
-INSERT INTO restaurante (endereco_bairo, endereco_cep, endereco_complemento, endereco_logradouro, endereco_numero, nome, taxa_frete, cozinha_id, endereco_cidade_id) VALUES('Centro', '85520-568', 'apto 1005', 'Pedro Ramires de mello', '1005', 'Central', 0.00, 1, 1);
-INSERT INTO restaurante (endereco_bairo, endereco_cep, endereco_complemento, endereco_logradouro, endereco_numero, nome, taxa_frete, cozinha_id, endereco_cidade_id) VALUES('Centro', '85520-568', 'apto 1005', 'Pedro Ramires de mello', '1005', 'Edificio Agape', 10.1, 1, 1);
+INSERT INTO restaurante (endereco_bairo, endereco_cep, endereco_complemento, endereco_logradouro, endereco_numero, nome, taxa_frete, cozinha_id, endereco_cidade_id, data_cadastro, data_atualizacao) VALUES('Centro', '85520-568', 'apto 1005', 'Pedro Ramires de mello', '1005', 'Da outra esquina', 20.00, 1, 1, utc_timestamp, utc_timestamp);
+INSERT INTO restaurante (endereco_bairo, endereco_cep, endereco_complemento, endereco_logradouro, endereco_numero, nome, taxa_frete, cozinha_id, endereco_cidade_id, data_cadastro, data_atualizacao) VALUES('Centro', '85520-568', 'apto 1005', 'Pedro Ramires de mello', '1005', 'Central', 0.00, 1, 1, utc_timestamp, utc_timestamp);
+INSERT INTO restaurante (endereco_bairo, endereco_cep, endereco_complemento, endereco_logradouro, endereco_numero, nome, taxa_frete, cozinha_id, endereco_cidade_id, data_cadastro, data_atualizacao) VALUES('Centro', '85520-568', 'apto 1005', 'Pedro Ramires de mello', '1005', 'Edificio Agape', 10.1, 1, 1, utc_timestamp, utc_timestamp);
 
 insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) values (1,1);
 insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) values (1,2);
