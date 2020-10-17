@@ -8,6 +8,12 @@ insert into cozinha (nome) values ('Japonesa');
 insert into restaurante (nome, taxa_frete, cozinha_id) values ('Da esquina', 1, 1);
 insert into restaurante (nome, taxa_frete,cozinha_id) values ('Da outra esquina',1, 2);
 insert into restaurante (nome, taxa_frete, cozinha_id) values ('Central', 1, 2);
+insert into restaurante (nome, taxa_frete, cozinha_id) values ('Central 2', 50, 5);
+insert into restaurante (nome, taxa_frete, cozinha_id) values ('Central 3 ', 0, 5);
+insert into restaurante (nome, taxa_frete, cozinha_id) values ('Central 4', 0, 5);
+insert into restaurante (nome, taxa_frete, cozinha_id) values ('Central 5', 8, 4);
+insert into restaurante (nome, taxa_frete, cozinha_id) values ('Central 6', 10, 3);
+insert into restaurante (nome, taxa_frete, cozinha_id) values ('Central 7', 12, 4);
 
 
 insert into estado (nome) values ('Parana');
