@@ -1,9 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.repository.FormaPagamantoRepository;
 import com.algaworks.algafood.domain.service.CadastroFormaPagamentoService;
@@ -11,7 +9,6 @@ import com.algaworks.algafood.domain.service.CadastroFormaPagamentoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,12 +35,8 @@ public class FormaDePagamentoController {
     }
 
     @GetMapping("/{formaPagamentoId}")
-    public ResponseEntity<FormaPagamento> buscar(@PathVariable Long formaPagamentoId) {
-        Optional<FormaPagamento> forma = formaPagamantoRepository.findById(formaPagamentoId);
-        if (forma.isPresent()) {
-            return ResponseEntity.ok(forma.get());
-        }
-        return ResponseEntity.notFound().build();
+    public FormaPagamento buscar(@PathVariable Long formaPagamentoId) {
+        return cadastroFormaPagamento.buscar(formaPagamentoId);
     }
 
     @PostMapping
@@ -53,24 +46,15 @@ public class FormaDePagamentoController {
     }
 
     @PutMapping("/{formaPagamentoId}")
-    public ResponseEntity<FormaPagamento> atualizar(@PathVariable Long formaPagamentoId,
-            @RequestBody FormaPagamento formaPagamento) {
-        Optional<FormaPagamento> formaPagamentoAtual = formaPagamantoRepository.findById(formaPagamentoId);
-        if (formaPagamentoAtual.isPresent()) {
-            BeanUtils.copyProperties(formaPagamento, formaPagamentoAtual.get(), "id");
-            FormaPagamento formaPagementoSalva = cadastroFormaPagamento.adicionar(formaPagamentoAtual.get());
-            return ResponseEntity.ok(formaPagementoSalva);
-        }
-        return ResponseEntity.notFound().build();
+    public FormaPagamento atualizar(@PathVariable Long formaPagamentoId, @RequestBody FormaPagamento formaPagamento) {
+        FormaPagamento formaPagamentoAtual = cadastroFormaPagamento.buscar(formaPagamentoId);
+        BeanUtils.copyProperties(formaPagamento, formaPagamentoAtual, "id");
+        return cadastroFormaPagamento.adicionar(formaPagamentoAtual);
     }
 
     @DeleteMapping("/{formaPagamentoId}")
-    public ResponseEntity<FormaPagamento> remover(@PathVariable Long formaPagamentoId) {
-        try {
-            cadastroFormaPagamento.remover(formaPagamentoId);
-            return ResponseEntity.noContent().build();
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long formaPagamentoId) {
+        cadastroFormaPagamento.remover(formaPagamentoId);
     }
 }

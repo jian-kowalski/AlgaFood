@@ -10,20 +10,29 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CasdastroPermissaoService {
-    
+
+    /**
+     *
+     */
+    private static final String MSG_PERMISSAO_NAO_ENCONTRADA = "Permissão não encontrada pra o código %d.";
     @Autowired
     private PermissaoRepository permissaoRepository;
 
-	public Permissao adicionar(Permissao permissao) {
-		return permissaoRepository.save(permissao);
+    public Permissao adicionar(Permissao permissao) {
+        return permissaoRepository.save(permissao);
     }
 
-	public void remover(Long permissaoId) {
+    public void remover(Long permissaoId) {
         try {
             permissaoRepository.deleteById(permissaoId);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(String.format(
-                "Permissão não encontrada pra o código %d.", permissaoId));
+            throw new EntidadeNaoEncontradaException(
+                    String.format(MSG_PERMISSAO_NAO_ENCONTRADA, permissaoId));
         }
-	}
+    }
+
+    public Permissao buscar(Long permissaoId) {
+        return permissaoRepository.findById(permissaoId).orElseThrow(() -> new EntidadeNaoEncontradaException(
+                String.format(MSG_PERMISSAO_NAO_ENCONTRADA, permissaoId)));
+    }
 }
