@@ -1,7 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.FormaPagamentoNaoEncontradaException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.repository.FormaPagamantoRepository;
 
@@ -17,10 +17,7 @@ public class CadastroFormaPagamentoService {
      *
      */
     private static final String MSG_FORMA_PAGAMENTO_EM_USO = "Forma de pagamento de código %d não pode ser removida, pois está em uso";
-    /**
-     *
-     */
-    private static final String MSG_FORMA_PAGAMENTO_NAO_ENCONTRADA = "Forma de pagamento não encontrada para o Código %d";
+
     @Autowired
     private FormaPagamantoRepository formaPagamentoRepository;
 
@@ -28,21 +25,19 @@ public class CadastroFormaPagamentoService {
         return formaPagamentoRepository.save(formaPagamento);
     }
 
-    public void remover(Long id) {
+    public void remover(Long formaPagamentoId) {
         try {
-            formaPagamentoRepository.deleteById(id);
+            formaPagamentoRepository.deleteById(formaPagamentoId);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    (String.format(MSG_FORMA_PAGAMENTO_NAO_ENCONTRADA, id)));
+            throw new FormaPagamentoNaoEncontradaException(formaPagamentoId);
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException(
-                    String.format(MSG_FORMA_PAGAMENTO_EM_USO, id));
+            throw new EntidadeEmUsoException(String.format(MSG_FORMA_PAGAMENTO_EM_USO, formaPagamentoId));
         }
     }
 
     public FormaPagamento buscar(Long formaPagamentoId) {
-        return formaPagamentoRepository.findById(formaPagamentoId).orElseThrow(() -> new EntidadeNaoEncontradaException(
-                (String.format(MSG_FORMA_PAGAMENTO_NAO_ENCONTRADA, formaPagamentoId))));
+        return formaPagamentoRepository.findById(formaPagamentoId)
+                .orElseThrow(() -> new FormaPagamentoNaoEncontradaException(formaPagamentoId));
     }
 
 }
