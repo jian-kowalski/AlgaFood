@@ -8,7 +8,7 @@ public class FormaPagamentoNaoEncontradaException extends EntidadeNaoEncontradaE
       super(mensagem);
   }
   public FormaPagamentoNaoEncontradaException(Long formaPagamentoId){
-      super(String.format("Cidade não encontrada para o Código %d", formaPagamentoId));
+      super(String.format("Forma de pagamento não encontrada para o Código %d", formaPagamentoId));
   }
   
 }
