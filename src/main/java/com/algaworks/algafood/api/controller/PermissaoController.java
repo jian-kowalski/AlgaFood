@@ -2,6 +2,8 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repository.PermissaoRepository;
 import com.algaworks.algafood.domain.service.CasdastroPermissaoService;
@@ -41,12 +43,12 @@ public class PermissaoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Permissao adicionar(@RequestBody Permissao permissao) {
+    public Permissao adicionar(@RequestBody @Valid Permissao permissao) {
         return cadastroPermissao.adicionar(permissao);
     }
 
     @PutMapping("/{permissaoId}")
-    public Permissao alterar(@PathVariable Long permissaoId, @RequestBody Permissao permissao) {
+    public Permissao alterar(@PathVariable Long permissaoId, @RequestBody @Valid Permissao permissao) {
         Permissao permissaoAtual = cadastroPermissao.buscar(permissaoId);
         BeanUtils.copyProperties(permissao, permissaoAtual, "id");
         return cadastroPermissao.adicionar(permissaoAtual);

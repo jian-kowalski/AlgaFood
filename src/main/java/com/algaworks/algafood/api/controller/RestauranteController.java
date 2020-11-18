@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.algaworks.algafood.core.validation.ValidacaoException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Restaurante;
@@ -24,6 +25,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -43,6 +46,9 @@ public class RestauranteController {
 
     @Autowired
     private CadastroRestauranteService cadastroRestaurante;
+
+    @Autowired
+    private SmartValidator validador;
 
     @GetMapping
     public List<Restaurante> listar() {
@@ -93,7 +99,7 @@ public class RestauranteController {
     }
 
     @PutMapping("/{restauranteId}")
-    public Restaurante alterar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
+    public Restaurante alterar(@PathVariable Long restauranteId, @RequestBody @Valid Restaurante restaurante) {
         Restaurante restauranteAtual = cadastroRestaurante.buscar(restauranteId);
         BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro",
                 "produtos");
@@ -115,7 +121,16 @@ public class RestauranteController {
             HttpServletRequest request) {
         Restaurante restauranteAtual = cadastroRestaurante.buscar(restauranteId);
         marge(campos, restauranteAtual, request);
+        validador(restauranteAtual, "restaurante");
         return alterar(restauranteId, restauranteAtual);
+    }
+
+    private void validador(Restaurante restaurante, String objectName) {
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurante, objectName);
+        validador.validate(restaurante, bindingResult);
+        if (bindingResult.hasErrors()) {
+            throw new ValidacaoException(bindingResult);
+        }
     }
 
     private void marge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino, HttpServletRequest request) {
@@ -134,7 +149,8 @@ public class RestauranteController {
                 ReflectionUtils.setField(field, restauranteDestino, novoValor);
             });
         } catch (IllegalArgumentException ex) {
-            throw new HttpMessageNotReadableException(ex.getMessage(), ExceptionUtils.getRootCause(ex), new ServletServerHttpRequest(request));
+            throw new HttpMessageNotReadableException(ex.getMessage(), ExceptionUtils.getRootCause(ex),
+                    new ServletServerHttpRequest(request));
         }
     }
 

@@ -2,6 +2,8 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.repository.FormaPagamantoRepository;
 import com.algaworks.algafood.domain.service.CadastroFormaPagamentoService;
@@ -41,12 +43,12 @@ public class FormaDePagamentoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public FormaPagamento adicionar(@RequestBody FormaPagamento formaPagamento) {
+    public FormaPagamento adicionar(@RequestBody @Valid FormaPagamento formaPagamento) {
         return cadastroFormaPagamento.adicionar(formaPagamento);
     }
 
     @PutMapping("/{formaPagamentoId}")
-    public FormaPagamento atualizar(@PathVariable Long formaPagamentoId, @RequestBody FormaPagamento formaPagamento) {
+    public FormaPagamento atualizar(@PathVariable Long formaPagamentoId, @RequestBody @Valid FormaPagamento formaPagamento) {
         FormaPagamento formaPagamentoAtual = cadastroFormaPagamento.buscar(formaPagamentoId);
         BeanUtils.copyProperties(formaPagamento, formaPagamentoAtual, "id");
         return cadastroFormaPagamento.adicionar(formaPagamentoAtual);

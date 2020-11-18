@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @JsonInclude(Include.NON_NULL)
 @Getter
@@ -16,19 +15,20 @@ import lombok.Setter;
 public class Problem {
 
   private Integer status;
+  private LocalDateTime timestamp;
   private String type;
   private String title;
   private String detail;
-  
   private String userMessage;
-  private LocalDateTime timestamp;
-  private List<Field> fields;
-  
+  private List<Object> objects;
+
   @Getter
   @Builder
-  public static class Field {
+  public static class Object {
+
     private String name;
     private String userMessage;
+
   }
 
 }
