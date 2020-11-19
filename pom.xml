@@ -64,6 +64,11 @@
       <artifactId>commons-lang3</artifactId>  
     </dependency>
   </dependencies>
+  <dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>rest-assured</artifactId>
+    <scope>test</scope>
+  </dependency>
   <build>
     <plugins>
       <plugin>

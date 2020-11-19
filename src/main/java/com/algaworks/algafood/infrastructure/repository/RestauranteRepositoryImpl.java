@@ -20,8 +20,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import lombok.var;
-
 @Repository
 public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
