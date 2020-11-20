@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import javax.validation.ConstraintViolationException;
 
 @SpringBootTest
+@TestPropertySource("/application-test.properties")
 public class CadastroCozinhaIntegracaoItTests {
 
 	@Autowired
