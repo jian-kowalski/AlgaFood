@@ -25,7 +25,6 @@ public class CadastroCozinhaIntegracaoApiTests {
     private static final int COZINHA_ID_INEXISTENTE = 100;
 
     private Cozinha cozinhaAmericana;
-    private int quantidadeCozinhasCadastradas;
     private String jsonCorretoCozinhaChinesa;
 
     @LocalServerPort
@@ -111,8 +110,6 @@ public class CadastroCozinhaIntegracaoApiTests {
         cozinhaAmericana = new Cozinha();
         cozinhaAmericana.setNome("Americana");
         cozinhaRepository.save(cozinhaAmericana);
-
-        quantidadeCozinhasCadastradas = (int) cozinhaRepository.count();
     }
 }
 
