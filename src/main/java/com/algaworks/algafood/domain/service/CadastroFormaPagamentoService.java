@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import javax.transaction.Transactional;
+
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.FormaPagamentoNaoEncontradaException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
@@ -21,10 +23,12 @@ public class CadastroFormaPagamentoService {
     @Autowired
     private FormaPagamantoRepository formaPagamentoRepository;
 
+    @Transactional
     public FormaPagamento adicionar(FormaPagamento formaPagamento) {
         return formaPagamentoRepository.save(formaPagamento);
     }
 
+    @Transactional
     public void remover(Long formaPagamentoId) {
         try {
             formaPagamentoRepository.deleteById(formaPagamentoId);

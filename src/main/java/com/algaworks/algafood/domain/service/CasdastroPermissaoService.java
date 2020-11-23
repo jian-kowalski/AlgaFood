@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import javax.transaction.Transactional;
+
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.PermissaoNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Permissao;
@@ -17,10 +19,12 @@ public class CasdastroPermissaoService {
     @Autowired
     private PermissaoRepository permissaoRepository;
 
+    @Transactional
     public Permissao adicionar(Permissao permissao) {
         return permissaoRepository.save(permissao);
     }
 
+    @Transactional
     public void remover(Long permissaoId) {
         try {
             permissaoRepository.deleteById(permissaoId);

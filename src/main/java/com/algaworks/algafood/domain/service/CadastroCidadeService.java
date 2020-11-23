@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import javax.transaction.Transactional;
+
 import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.Cidade;
@@ -22,6 +24,7 @@ public class CadastroCidadeService {
     @Autowired
     private CadastroEstadoService cadastroEstadoService;
 
+    @Transactional
     public Cidade adicionar(Cidade cidade) {
         Long estadoId = cidade.getEstado().getId();
         Estado estado = retornarEstadoPorId(estadoId);
@@ -33,6 +36,7 @@ public class CadastroCidadeService {
         return cadastroEstadoService.buscar(estadoId);
     }
 
+    @Transactional
     public void remover(Long cidadeId) {
         try {
             cidadeRepository.deleteById(cidadeId);

@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.service;
 
+import javax.transaction.Transactional;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
@@ -23,6 +24,7 @@ public class CadastroRestauranteService {
     @Autowired
     private CadastroCozinhaService cadastroCozinhaService;
 
+    @Transactional
     public Restaurante adicionar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
         Cozinha cozinha = retornarCozinhaPorId(cozinhaId);
@@ -30,6 +32,7 @@ public class CadastroRestauranteService {
         return restauranteRepository.save(restaurante);
     }
 
+    @Transactional
     public Restaurante alterar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
         Cozinha cozinha = retornarCozinhaPorId(cozinhaId);
@@ -38,6 +41,7 @@ public class CadastroRestauranteService {
         return restauranteRepository.save(restaurante);
     }
 
+    @Transactional
     public void remover(Long restauranteId) {
         try {
             restauranteRepository.deleteById(restauranteId);
