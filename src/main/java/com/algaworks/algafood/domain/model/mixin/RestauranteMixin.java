@@ -14,10 +14,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class RestauranteMixin {
 
-    // @JsonIgnore
+    @JsonIgnore
     private OffsetDateTime dataCadastro;
 
-    // @JsonIgnore
+    @JsonIgnore
     private OffsetDateTime dataAtualizacao;
 
     @JsonIgnoreProperties(value = "nome", allowGetters = true)
