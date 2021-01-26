@@ -1,35 +1,25 @@
 package com.algaworks.algafood.api.controller;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import com.algaworks.algafood.core.validation.ValidacaoException;
+import com.algaworks.algafood.api.Model.RestauranteModel;
+import com.algaworks.algafood.api.Model.input.RestauranteInput;
+import com.algaworks.algafood.api.assembler.RestauranteModelAssembeler;
+import com.algaworks.algafood.api.disassembler.RestauranteInputDisassembler;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.server.ServletServerHttpRequest;
-import org.springframework.util.ReflectionUtils;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -48,63 +38,73 @@ public class RestauranteController {
     private CadastroRestauranteService cadastroRestaurante;
 
     @Autowired
-    private SmartValidator validador;
+    private RestauranteModelAssembeler restauranteModelAssembeler;
+
+    @Autowired
+    private RestauranteInputDisassembler restauranteInputDisassembler;
 
     @GetMapping
-    public List<Restaurante> listar() {
-        return restauranteRepository.findAll();
+    public List<RestauranteModel> listar() {
+        return restauranteModelAssembeler.toCollectionModel(restauranteRepository.findAll());
     }
 
     @GetMapping("/{restauranteId}")
-    public Restaurante buscar(@PathVariable Long restauranteId) {
-        return cadastroRestaurante.buscar(restauranteId);
+    public RestauranteModel buscar(@PathVariable Long restauranteId) {
+        return restauranteModelAssembeler.toModel(cadastroRestaurante.buscar(restauranteId));
     }
 
     @GetMapping("/por-nome")
-    public List<Restaurante> restaurantePorNome(Long cozinhaId, String nome) {
-        return restauranteRepository.procurarPorNomeECozinha(nome, cozinhaId);
+    public List<RestauranteModel> restaurantePorNome(Long cozinhaId, String nome) {
+        return restauranteModelAssembeler
+                .toCollectionModel(restauranteRepository.procurarPorNomeECozinha(nome, cozinhaId));
     }
 
     @GetMapping("/por-nome-e-frente")
-    public List<Restaurante> restaurantePorNomeEFrente(String nome, BigDecimal taxaFreteInicial,
+    public List<RestauranteModel> restaurantePorNomeEFrente(String nome, BigDecimal taxaFreteInicial,
             BigDecimal taxaFreteFinal) {
-        return restauranteRepository.procurarPorNomeTaxaIncialTaxaFinal(nome, taxaFreteInicial, taxaFreteFinal);
+        return restauranteModelAssembeler.toCollectionModel(
+                restauranteRepository.procurarPorNomeTaxaIncialTaxaFinal(nome, taxaFreteInicial, taxaFreteFinal));
     }
 
     @GetMapping("/com-frete-gratis")
-    public List<Restaurante> ComFreteGratis(String nome) {
-        return restauranteRepository.procurarPorFreteGratisENomeSemelhante(nome);
+    public List<RestauranteModel> ComFreteGratis(String nome) {
+        return restauranteModelAssembeler
+                .toCollectionModel(restauranteRepository.procurarPorFreteGratisENomeSemelhante(nome));
     }
 
     @GetMapping("/por-nome-cozinha-taxa")
-    public List<Restaurante> procurarPorNomeCozinhaTaxa(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
+    public List<RestauranteModel> procurarPorNomeCozinhaTaxa(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
             BigDecimal taxaFreteFinal) {
-        return restauranteRepository.procurarPorNomeCozinhaTaxa(nome, cozinhaId, taxaFreteInicial, taxaFreteFinal);
+        return restauranteModelAssembeler.toCollectionModel(
+                restauranteRepository.procurarPorNomeCozinhaTaxa(nome, cozinhaId, taxaFreteInicial, taxaFreteFinal));
     }
 
     @GetMapping("/buscar-primeiro")
-    public Optional<Restaurante> buscarPrimeiro(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
+    public RestauranteModel buscarPrimeiro(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
             BigDecimal taxaFreteFinal) {
-        return restauranteRepository.buscarPrimeiro();
+        return restauranteModelAssembeler.toModel(restauranteRepository.buscarPrimeiro().orElseThrow());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurante adicionar(@RequestBody @Valid Restaurante restaurante) {
+    public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
         try {
-            return cadastroRestaurante.adicionar(restaurante);
+            Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
+            return restauranteModelAssembeler.toModel(cadastroRestaurante.adicionar(restaurante));
         } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
 
     @PutMapping("/{restauranteId}")
-    public Restaurante alterar(@PathVariable Long restauranteId, @RequestBody @Valid Restaurante restaurante) {
+    public RestauranteModel alterar(@PathVariable Long restauranteId,
+            @RequestBody @Valid RestauranteInput restauranteInput) {
         Restaurante restauranteAtual = cadastroRestaurante.buscar(restauranteId);
+        Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
         BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro",
                 "produtos");
         try {
-            return cadastroRestaurante.adicionar(restaurante);
+            return restauranteModelAssembeler.toModel(cadastroRestaurante.adicionar(restaurante));
         } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
@@ -114,44 +114,6 @@ public class RestauranteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long restauranteId) {
         cadastroRestaurante.remover(restauranteId);
-    }
-
-    @PatchMapping("/{restauranteId}")
-    public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos,
-            HttpServletRequest request) {
-        Restaurante restauranteAtual = cadastroRestaurante.buscar(restauranteId);
-        marge(campos, restauranteAtual, request);
-        validador(restauranteAtual, "restaurante");
-        return alterar(restauranteId, restauranteAtual);
-    }
-
-    private void validador(Restaurante restaurante, String objectName) {
-        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurante, objectName);
-        validador.validate(restaurante, bindingResult);
-        if (bindingResult.hasErrors()) {
-            throw new ValidacaoException(bindingResult);
-        }
-    }
-
-    private void marge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino, HttpServletRequest request) {
-        try {
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-
-            Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
-
-            dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
-                Field field = ReflectionUtils.findField(Restaurante.class, nomePropriedade);
-                field.setAccessible(true);
-                Object novoValor = ReflectionUtils.getField(field, restauranteOrigem);
-                ReflectionUtils.setField(field, restauranteDestino, novoValor);
-            });
-        } catch (IllegalArgumentException ex) {
-            throw new HttpMessageNotReadableException(ex.getMessage(), ExceptionUtils.getRootCause(ex),
-                    new ServletServerHttpRequest(request));
-        }
     }
 
 }
