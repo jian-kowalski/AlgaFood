@@ -1,11 +1,11 @@
 package com.algaworks.algafood.core.validation.jackson;
 
+import com.algaworks.algafood.api.Model.mixin.CidadeMixin;
+import com.algaworks.algafood.api.Model.mixin.CozinhaMixin;
+import com.algaworks.algafood.api.Model.mixin.RestauranteMixin;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.model.mixin.CidadeMixin;
-import com.algaworks.algafood.domain.model.mixin.CozinhaMixin;
-import com.algaworks.algafood.domain.model.mixin.RestauranteMixin;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import org.springframework.stereotype.Component;

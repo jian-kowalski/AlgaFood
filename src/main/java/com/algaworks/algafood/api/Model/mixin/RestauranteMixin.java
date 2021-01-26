@@ -1,4 +1,4 @@
-package com.algaworks.algafood.domain.model.mixin;
+package com.algaworks.algafood.api.Model.mixin;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
