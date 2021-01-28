@@ -15,7 +15,6 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -100,11 +99,9 @@ public class RestauranteController {
     public RestauranteModel alterar(@PathVariable Long restauranteId,
             @RequestBody @Valid RestauranteInput restauranteInput) {
         Restaurante restauranteAtual = cadastroRestaurante.buscar(restauranteId);
-        Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
-        BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro",
-                "produtos");
+        restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
         try {
-            return restauranteModelAssembeler.toModel(cadastroRestaurante.adicionar(restaurante));
+            return restauranteModelAssembeler.toModel(cadastroRestaurante.adicionar(restauranteAtual));
         } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }

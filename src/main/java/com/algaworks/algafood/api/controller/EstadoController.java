@@ -4,11 +4,14 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.algaworks.algafood.api.Model.EstadoModel;
+import com.algaworks.algafood.api.Model.input.EstadoInput;
+import com.algaworks.algafood.api.assembler.EstadoModelAssembeler;
+import com.algaworks.algafood.api.disassembler.EstadoInputDisassembler;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.CadastroEstadoService;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,9 +34,15 @@ public class EstadoController {
   @Autowired
   private CadastroEstadoService cadastroEstado;
 
+  @Autowired
+  private EstadoModelAssembeler estadoModelAssembeler;
+
+  @Autowired
+  private EstadoInputDisassembler estadoInputDisassembler;
+
   @GetMapping
-  public List<Estado> listar() {
-    return estadoRepository.findAll();
+  public List<EstadoModel> listar() {
+    return estadoModelAssembeler.toCollectionModel(estadoRepository.findAll());
   }
 
   @GetMapping("/{estadoId}")
@@ -43,15 +52,16 @@ public class EstadoController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Estado adicionar(@RequestBody @Valid Estado estado) {
-    return cadastroEstado.adicionar(estado);
+  public EstadoModel adicionar(@RequestBody @Valid EstadoInput estadoInput) {
+    Estado estado = estadoInputDisassembler.toDomainObject(estadoInput);
+    return estadoModelAssembeler.toModel(cadastroEstado.adicionar(estado));
   }
 
   @PutMapping("/{estadoId}")
-  public Estado atualizar(@PathVariable Long estadoId, @RequestBody @Valid Estado estado) {
+  public EstadoModel atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estadoInput) {
     Estado estadoAtual = cadastroEstado.buscar(estadoId);
-    BeanUtils.copyProperties(estado, estadoAtual, "id");
-    return cadastroEstado.adicionar(estadoAtual);
+    estadoInputDisassembler.copyToDomainObject(estadoInput, estadoAtual);
+    return estadoModelAssembeler.toModel(cadastroEstado.adicionar(estadoAtual));
   }
 
   @DeleteMapping("/{estadoId}")

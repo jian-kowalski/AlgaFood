@@ -4,11 +4,14 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.algaworks.algafood.api.Model.PermissaoModel;
+import com.algaworks.algafood.api.Model.input.PermissaoInput;
+import com.algaworks.algafood.api.assembler.PermissaoModelAssembler;
+import com.algaworks.algafood.api.disassembler.PermissaoInputDisassembler;
 import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repository.PermissaoRepository;
 import com.algaworks.algafood.domain.service.CasdastroPermissaoService;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,27 +34,34 @@ public class PermissaoController {
     @Autowired
     private CasdastroPermissaoService cadastroPermissao;
 
+    @Autowired
+    private PermissaoModelAssembler permissaoModelAssembler;
+
+    @Autowired
+    private PermissaoInputDisassembler permissaoInputDisassembler;
+
     @GetMapping
-    public List<Permissao> listar() {
-        return permissaoRepository.findAll();
+    public List<PermissaoModel> listar() {
+        return permissaoModelAssembler.toCollectionModel(permissaoRepository.findAll());
     }
 
     @GetMapping("/{permissaoId}")
-    public Permissao buscar(@PathVariable Long permissaoId) {
-        return cadastroPermissao.buscar(permissaoId);
+    public PermissaoModel buscar(@PathVariable Long permissaoId) {
+        return permissaoModelAssembler.toModel(cadastroPermissao.buscar(permissaoId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Permissao adicionar(@RequestBody @Valid Permissao permissao) {
-        return cadastroPermissao.adicionar(permissao);
+    public PermissaoModel adicionar(@RequestBody @Valid PermissaoInput permissaoInput) {
+        Permissao permissao = permissaoInputDisassembler.toDomainObject(permissaoInput);
+        return permissaoModelAssembler.toModel(cadastroPermissao.adicionar(permissao));
     }
 
     @PutMapping("/{permissaoId}")
-    public Permissao alterar(@PathVariable Long permissaoId, @RequestBody @Valid Permissao permissao) {
+    public PermissaoModel alterar(@PathVariable Long permissaoId, @RequestBody @Valid PermissaoInput permissaoInput) {
         Permissao permissaoAtual = cadastroPermissao.buscar(permissaoId);
-        BeanUtils.copyProperties(permissao, permissaoAtual, "id");
-        return cadastroPermissao.adicionar(permissaoAtual);
+        permissaoInputDisassembler.copyToDomainObject(permissaoInput, permissaoAtual);
+        return permissaoModelAssembler.toModel(cadastroPermissao.adicionar(permissaoAtual));
     }
 
     @DeleteMapping("/{permissaoId}")
