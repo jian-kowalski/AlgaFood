@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class CadastroRestauranteService {
 
     private static final String MSG_RESTAURANTE_EM_USO = "Restaurante de código %d não pode ser removido, pois está em uso";
-    
+
     @Autowired
     private RestauranteRepository restauranteRepository;
 
@@ -60,6 +60,16 @@ public class CadastroRestauranteService {
     public Restaurante buscar(Long restauranteId) {
         return restauranteRepository.findById(restauranteId)
                 .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
+    }
+
+    @Transactional
+    public void ativar(Long restauranteId) {
+        buscar(restauranteId).ativar();
+    }
+
+    @Transactional
+    public void inativar(Long restauranteId) {
+        buscar(restauranteId).inativar();
     }
 
 }

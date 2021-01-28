@@ -46,6 +46,8 @@ public class Restaurante {
     @Column(nullable = false, columnDefinition = "dateTime")
     private OffsetDateTime dataAtualizacao;
 
+    private Boolean ativo = Boolean.TRUE;
+
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
@@ -59,4 +61,12 @@ public class Restaurante {
 
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
+
+    public void ativar() {
+        ativo = true;
+    }
+    
+    public void inativar() {
+        ativo = false;
+    }
 }
