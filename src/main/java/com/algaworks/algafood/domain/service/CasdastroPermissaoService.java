@@ -28,6 +28,7 @@ public class CasdastroPermissaoService {
     public void remover(Long permissaoId) {
         try {
             permissaoRepository.deleteById(permissaoId);
+            permissaoRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new PermissaoNaoEncontradaException(permissaoId);
         } catch (DataIntegrityViolationException e) {
