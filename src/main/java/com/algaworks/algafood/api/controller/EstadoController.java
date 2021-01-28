@@ -6,7 +6,7 @@ import javax.validation.Valid;
 
 import com.algaworks.algafood.api.Model.EstadoModel;
 import com.algaworks.algafood.api.Model.input.EstadoInput;
-import com.algaworks.algafood.api.assembler.EstadoModelAssembeler;
+import com.algaworks.algafood.api.assembler.EstadoModelAssembler;
 import com.algaworks.algafood.api.disassembler.EstadoInputDisassembler;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
@@ -35,14 +35,14 @@ public class EstadoController {
   private CadastroEstadoService cadastroEstado;
 
   @Autowired
-  private EstadoModelAssembeler estadoModelAssembeler;
+  private EstadoModelAssembler EstadoModelAssembler;
 
   @Autowired
   private EstadoInputDisassembler estadoInputDisassembler;
 
   @GetMapping
   public List<EstadoModel> listar() {
-    return estadoModelAssembeler.toCollectionModel(estadoRepository.findAll());
+    return EstadoModelAssembler.toCollectionModel(estadoRepository.findAll());
   }
 
   @GetMapping("/{estadoId}")
@@ -54,14 +54,14 @@ public class EstadoController {
   @ResponseStatus(HttpStatus.CREATED)
   public EstadoModel adicionar(@RequestBody @Valid EstadoInput estadoInput) {
     Estado estado = estadoInputDisassembler.toDomainObject(estadoInput);
-    return estadoModelAssembeler.toModel(cadastroEstado.adicionar(estado));
+    return EstadoModelAssembler.toModel(cadastroEstado.adicionar(estado));
   }
 
   @PutMapping("/{estadoId}")
   public EstadoModel atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estadoInput) {
     Estado estadoAtual = cadastroEstado.buscar(estadoId);
     estadoInputDisassembler.copyToDomainObject(estadoInput, estadoAtual);
-    return estadoModelAssembeler.toModel(cadastroEstado.adicionar(estadoAtual));
+    return EstadoModelAssembler.toModel(cadastroEstado.adicionar(estadoAtual));
   }
 
   @DeleteMapping("/{estadoId}")

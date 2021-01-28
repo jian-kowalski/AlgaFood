@@ -6,7 +6,7 @@ import javax.validation.Valid;
 
 import com.algaworks.algafood.api.Model.CozinhaModel;
 import com.algaworks.algafood.api.Model.input.CozinhaInput;
-import com.algaworks.algafood.api.assembler.CozinhaModelAssembeler;
+import com.algaworks.algafood.api.assembler.CozinhaModelAssembler;
 import com.algaworks.algafood.api.disassembler.CozinhaInputDisassembler;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
@@ -35,19 +35,19 @@ public class CozinhaController {
   private CadastroCozinhaService cadastroCozinha;
 
   @Autowired
-  private CozinhaModelAssembeler cozinhaModelAssembeler;
+  private CozinhaModelAssembler CozinhaModelAssembler;
 
   @Autowired
   private CozinhaInputDisassembler cozinhaInputDisassembler;
 
   @GetMapping
   public List<CozinhaModel> listar() {
-    return cozinhaModelAssembeler.toCollectionModel(cozinhaRepository.findAll());
+    return CozinhaModelAssembler.toCollectionModel(cozinhaRepository.findAll());
   }
 
   @GetMapping("/{cozinhaId}")
   public CozinhaModel buscar(@PathVariable Long cozinhaId) {
-    return cozinhaModelAssembeler.toModel(cadastroCozinha.buscar(cozinhaId));
+    return CozinhaModelAssembler.toModel(cadastroCozinha.buscar(cozinhaId));
   }
 
   @PostMapping
@@ -55,14 +55,14 @@ public class CozinhaController {
   public CozinhaModel adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
     Cozinha cozinha = cozinhaInputDisassembler.toDomainObject(cozinhaInput);
 
-    return cozinhaModelAssembeler.toModel(cadastroCozinha.adicionar(cozinha));
+    return CozinhaModelAssembler.toModel(cadastroCozinha.adicionar(cozinha));
   }
 
   @PutMapping("/{cozinhaId}")
   public CozinhaModel atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinhaInput) {
     Cozinha cozinhaAtual = cadastroCozinha.buscar(cozinhaId);
     cozinhaInputDisassembler.copyToDomainObject(cozinhaInput, cozinhaAtual);
-    return cozinhaModelAssembeler.toModel(cadastroCozinha.adicionar(cozinhaAtual));
+    return CozinhaModelAssembler.toModel(cadastroCozinha.adicionar(cozinhaAtual));
   }
 
   @DeleteMapping("/{cozinhaId}")
