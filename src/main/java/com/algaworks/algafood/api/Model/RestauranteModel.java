@@ -1,7 +1,6 @@
 package com.algaworks.algafood.api.Model;
 
 import java.math.BigDecimal;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +17,7 @@ public class RestauranteModel {
     private Boolean ativo;
     
     private CozinhaModel cozinha;
+
+    private EnderecoModel endereco;
 
 }
