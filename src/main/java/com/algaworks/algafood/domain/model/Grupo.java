@@ -20,13 +20,13 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Grupo {
 
-  @EqualsAndHashCode.Include
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @EqualsAndHashCode.Include
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(nullable = false)
-  private String descricao;
+  private String nome;
   
   @ManyToMany
   @JoinTable(name = "grupo_permissao",

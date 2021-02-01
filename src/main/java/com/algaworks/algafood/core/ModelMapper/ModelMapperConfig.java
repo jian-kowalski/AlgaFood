@@ -1,8 +1,5 @@
 package com.algaworks.algafood.core.ModelMapper;
 
-import com.algaworks.algafood.api.Model.EnderecoModel;
-import com.algaworks.algafood.domain.model.Endereco;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
