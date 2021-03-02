@@ -21,6 +21,6 @@ public class RestauranteModelAssembler {
     }
 
     public List<RestauranteModel> toCollectionModel(List<Restaurante> restaurantes) {
-        return restaurantes.stream().map(restaurante -> toModel(restaurante)).collect(Collectors.toList());
+        return restaurantes.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

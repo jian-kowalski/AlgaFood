@@ -42,6 +42,14 @@ insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) valu
 insert into permissao (nome) values ('Total');  
 insert into permissao (nome) values ('Media');  
 insert into permissao (nome) values ('Nenhuma');  
+insert into permissao (nome) values ('Teste');  
+
+insert into usuario (nome, email, senha, data_cadastro) values ('Jian', 'jian@algafood.com.br', '123' utc_timestamp);  
+insert into usuario (nome, email, senha, data_cadastro) values ('Andre', 'Andre@algafood.com.br', '123' utc_timestamp);  
+insert into usuario (nome, email, senha, data_cadastro) values ('Camila', 'Camila@algafood.com.br', '123' utc_timestamp);  
+insert into usuario (nome, email, senha, data_cadastro) values ('Joao', 'Joao@algafood.com.br', '123' utc_timestamp);  
+insert into usuario (nome, email, senha, data_cadastro) values ('Maria', 'Maria@algafood.com.br', '123' utc_timestamp);  
+
 
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 1);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 1);

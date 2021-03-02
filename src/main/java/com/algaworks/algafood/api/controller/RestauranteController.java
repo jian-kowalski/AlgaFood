@@ -38,51 +38,51 @@ public class RestauranteController {
     private CadastroRestauranteService cadastroRestaurante;
 
     @Autowired
-    private RestauranteModelAssembler RestauranteModelAssembler;
+    private RestauranteModelAssembler restauranteModelAssembler;
 
     @Autowired
     private RestauranteInputDisassembler restauranteInputDisassembler;
 
     @GetMapping
     public List<RestauranteModel> listar() {
-        return RestauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
+        return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
     }
 
     @GetMapping("/{restauranteId}")
     public RestauranteModel buscar(@PathVariable Long restauranteId) {
-        return RestauranteModelAssembler.toModel(cadastroRestaurante.buscar(restauranteId));
+        return restauranteModelAssembler.toModel(cadastroRestaurante.buscar(restauranteId));
     }
 
     @GetMapping("/por-nome")
     public List<RestauranteModel> restaurantePorNome(Long cozinhaId, String nome) {
-        return RestauranteModelAssembler
+        return restauranteModelAssembler
                 .toCollectionModel(restauranteRepository.procurarPorNomeECozinha(nome, cozinhaId));
     }
 
     @GetMapping("/por-nome-e-frente")
     public List<RestauranteModel> restaurantePorNomeEFrente(String nome, BigDecimal taxaFreteInicial,
             BigDecimal taxaFreteFinal) {
-        return RestauranteModelAssembler.toCollectionModel(
+        return restauranteModelAssembler.toCollectionModel(
                 restauranteRepository.procurarPorNomeTaxaIncialTaxaFinal(nome, taxaFreteInicial, taxaFreteFinal));
     }
 
     @GetMapping("/com-frete-gratis")
-    public List<RestauranteModel> ComFreteGratis(String nome) {
-        return RestauranteModelAssembler
+    public List<RestauranteModel> comFreteGratis(String nome) {
+        return restauranteModelAssembler
                 .toCollectionModel(restauranteRepository.procurarPorFreteGratisENomeSemelhante(nome));
     }
 
     @GetMapping("/por-nome-cozinha-taxa")
     public List<RestauranteModel> procurarPorNomeCozinhaTaxa(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
             BigDecimal taxaFreteFinal) {
-        return RestauranteModelAssembler.toCollectionModel(
+        return restauranteModelAssembler.toCollectionModel(
                 restauranteRepository.procurarPorNomeCozinhaTaxa(nome, cozinhaId, taxaFreteInicial, taxaFreteFinal));
     }
 
     @GetMapping("/buscar-primeiro")
     public RestauranteModel buscarPrimeiro(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
             BigDecimal taxaFreteFinal) {
-        return RestauranteModelAssembler.toModel(restauranteRepository.buscarPrimeiro().orElseThrow());
+        return restauranteModelAssembler.toModel(restauranteRepository.buscarPrimeiro().orElseThrow());
     }
 
     @PostMapping
@@ -90,7 +90,7 @@ public class RestauranteController {
     public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
         try {
             Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
-            return RestauranteModelAssembler.toModel(cadastroRestaurante.adicionar(restaurante));
+            return restauranteModelAssembler.toModel(cadastroRestaurante.adicionar(restaurante));
         } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
@@ -102,7 +102,7 @@ public class RestauranteController {
         Restaurante restauranteAtual = cadastroRestaurante.buscar(restauranteId);
         restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
         try {
-            return RestauranteModelAssembler.toModel(cadastroRestaurante.adicionar(restauranteAtual));
+            return restauranteModelAssembler.toModel(cadastroRestaurante.adicionar(restauranteAtual));
         } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException  e) {
             throw new NegocioException(e.getMessage());
         }
