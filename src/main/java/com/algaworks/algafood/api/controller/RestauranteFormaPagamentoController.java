@@ -4,9 +4,6 @@ import java.util.List;
 
 import com.algaworks.algafood.api.Model.FormaPagamentoModel;
 import com.algaworks.algafood.api.assembler.FormaPagamentoModelAssembler;
-import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
-import com.algaworks.algafood.api.disassembler.RestauranteInputDisassembler;
-import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestauranteFormaPagamentoController {
 
     @Autowired
-    private RestauranteRepository restauranteRepository;
-
-    @Autowired
     private CadastroRestauranteService cadastroRestaurante;
-
-    @Autowired
-    private RestauranteModelAssembler restauranteModelAssembler;
-
-    @Autowired
-    private RestauranteInputDisassembler restauranteInputDisassembler;
 
     @Autowired
     private FormaPagamentoModelAssembler formaPagamentoModelAssembler;
@@ -41,19 +29,20 @@ public class RestauranteFormaPagamentoController {
     @GetMapping
     public List<FormaPagamentoModel> listar(@PathVariable Long restauranteId) {
         var restaurante = cadastroRestaurante.buscar(restauranteId);
-        return formaPagamentoModelAssembler
-                .toCollectionModel(restaurante.getFormasPagamento());
+        return formaPagamentoModelAssembler.toCollectionModel(restaurante.getFormasPagamento());
     }
 
     @DeleteMapping("/{formaPagamentoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removerFormaPagamentoDoRestaurante(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId){
+    public void removerFormaPagamentoDoRestaurante(@PathVariable Long restauranteId,
+            @PathVariable Long formaPagamentoId) {
         cadastroRestaurante.removerFormaPagamentoDoRestaurante(restauranteId, formaPagamentoId);
     }
 
     @PutMapping("/{formaPagamentoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void adicionarFormaPagamentoDoRestaurante(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId){
+    public void adicionarFormaPagamentoDoRestaurante(@PathVariable Long restauranteId,
+            @PathVariable Long formaPagamentoId) {
         cadastroRestaurante.adicionarFormaPagamentoDoRestaurante(restauranteId, formaPagamentoId);
     }
 
