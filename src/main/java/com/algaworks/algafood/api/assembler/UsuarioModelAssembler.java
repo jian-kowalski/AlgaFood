@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
+import java.util.Collection;
 import java.util.List;
 
 import java.util.stream.Collectors;
@@ -18,7 +19,7 @@ public class UsuarioModelAssembler {
         return modelMapper.map(usuario, UsuarioModel.class);
     }
 
-    public List<UsuarioModel> toColletion(List<Usuario> usuarios) {
+    public List<UsuarioModel> toColletion(Collection<Usuario> usuarios) {
       return usuarios.stream().map(this::toModel).collect(Collectors.toList());
     }
     

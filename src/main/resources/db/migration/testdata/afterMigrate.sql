@@ -94,3 +94,7 @@ insert into usuario (nome, email, senha, data_cadastro) values ('Joao', 'Joao@al
 insert into usuario (nome, email, senha, data_cadastro) values ('Maria', 'Maria@algafood.com.br', '123', utc_timestamp);
 
 insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2);
+
+delete from restaurante_usuario_responsavel;
+
+insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 5), (3, 5);

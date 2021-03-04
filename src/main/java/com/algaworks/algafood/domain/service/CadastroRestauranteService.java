@@ -29,7 +29,10 @@ public class CadastroRestauranteService {
     private CadastroCidadeService cadastroCidadeService;
 
     @Autowired 
-    private CadastroFormaPagamentoService cadastroFormaPagamentoService; 
+    private CadastroFormaPagamentoService cadastroFormaPagamentoService;
+
+    @Autowired
+    private CadastroUsuarioService cadastroUsuarioService;
 
     @Transactional
     public Restaurante adicionar(Restaurante restaurante) {
@@ -108,5 +111,16 @@ public class CadastroRestauranteService {
         var formaPagamento =  cadastroFormaPagamentoService.buscar(formaPagamentoId);
         restaurante.adicionarFormaPagamento(formaPagamento);
     }
+
+    @Transactional
+    public void removerResponsavelDoRestaurante(Long restauranteId, Long usuarioId) {
+        buscar(restauranteId).removerResponsavel(cadastroUsuarioService.buscar(usuarioId));
+    }
+
+    @Transactional
+    public void adicionaeResponsavelDoRestaurante(Long restauranteId, Long usuarioId) {
+        buscar(restauranteId).adicionarResponsavel(cadastroUsuarioService.buscar(usuarioId));
+    }
+
 
 }
