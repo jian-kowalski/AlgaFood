@@ -19,6 +19,9 @@ public class CadastroGrupoService {
     @Autowired
     private GrupoRepository grupoRepository;
 
+    @Autowired
+    private CadastroPermissaoService cadastroPermissaoService;
+
     @Transactional
     public Grupo adicionar(Grupo grupo) {
         return grupoRepository.save(grupo);
@@ -39,5 +42,16 @@ public class CadastroGrupoService {
             throw new EntidadeEmUsoException(String.format(MSG_GRUPO_EM_USO, grupoId));
         }
 	}
+
+	@Transactional
+    public void desassociarPermissao(Long grupoId, Long permissaoId){
+        buscar(grupoId).removerPermissao(cadastroPermissaoService.buscar(permissaoId));
+    }
+
+    @Transactional
+    public void associarPermissao(Long grupoId, Long permissaoId){
+        buscar(grupoId).adicionarPermissao(cadastroPermissaoService.buscar(permissaoId));
+    }
+
 
 }

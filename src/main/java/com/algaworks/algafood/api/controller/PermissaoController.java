@@ -10,7 +10,7 @@ import com.algaworks.algafood.api.assembler.PermissaoModelAssembler;
 import com.algaworks.algafood.api.disassembler.PermissaoInputDisassembler;
 import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repository.PermissaoRepository;
-import com.algaworks.algafood.domain.service.CasdastroPermissaoService;
+import com.algaworks.algafood.domain.service.CadastroPermissaoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ public class PermissaoController {
     private PermissaoRepository permissaoRepository;
 
     @Autowired
-    private CasdastroPermissaoService cadastroPermissao;
+    private CadastroPermissaoService cadastroPermissao;
 
     @Autowired
     private PermissaoModelAssembler permissaoModelAssembler;
