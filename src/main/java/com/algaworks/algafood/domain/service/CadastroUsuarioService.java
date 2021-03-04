@@ -18,6 +18,9 @@ public class CadastroUsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private CadastroGrupoService cadastroGrupoService;
+
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();
     }
@@ -51,6 +54,16 @@ public class CadastroUsuarioService {
             throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
         }
         usuario.setSenha(novaSenha);
+    }
+
+    @Transactional
+    public void desassociarGrupo(Long usuarioId, Long grupoId) {
+        buscar(usuarioId).removerGrupo(cadastroGrupoService.buscar(grupoId));
+    }
+
+    @Transactional
+    public void associarGrupo(Long usuarioId, Long grupoId) {
+        buscar(usuarioId).adicionarGrupo(cadastroGrupoService.buscar(grupoId));
     }
 
 }

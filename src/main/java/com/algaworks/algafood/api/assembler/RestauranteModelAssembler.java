@@ -7,16 +7,13 @@ import com.algaworks.algafood.api.Model.RestauranteModel;
 import com.algaworks.algafood.domain.model.Restaurante;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RestauranteModelAssembler {
 
-    @Autowired
-    private ModelMapper modelMapper;
-
     public RestauranteModel toModel(Restaurante restaurante) {
+        var modelMapper = new ModelMapper();
         return modelMapper.map(restaurante, RestauranteModel.class);
     }
 

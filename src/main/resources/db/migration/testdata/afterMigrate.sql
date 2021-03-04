@@ -91,4 +91,6 @@ insert into usuario (nome, email, senha, data_cadastro) values ('Jian', 'jian@al
 insert into usuario (nome, email, senha, data_cadastro) values ('Andre', 'Andre@algafood.com.br', '123', utc_timestamp);  
 insert into usuario (nome, email, senha, data_cadastro) values ('Camila', 'Camila@algafood.com.br', '123', utc_timestamp);  
 insert into usuario (nome, email, senha, data_cadastro) values ('Joao', 'Joao@algafood.com.br', '123', utc_timestamp);  
-insert into usuario (nome, email, senha, data_cadastro) values ('Maria', 'Maria@algafood.com.br', '123', utc_timestamp);  
+insert into usuario (nome, email, senha, data_cadastro) values ('Maria', 'Maria@algafood.com.br', '123', utc_timestamp);
+
+insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2);

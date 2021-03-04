@@ -7,22 +7,19 @@ import com.algaworks.algafood.api.Model.CidadeModel;
 import com.algaworks.algafood.domain.model.Cidade;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CidadeModelAssembler {
 
-    @Autowired
-    private ModelMapper modelMapper;
-    
     public CidadeModel toModel(Cidade cidade) {
+        var modelMapper = new ModelMapper();
         return modelMapper.map(cidade, CidadeModel.class);
     }
     
     public List<CidadeModel> toCollectionModel(List<Cidade> cidades) {
         return cidades.stream()
-                .map(cidade -> toModel(cidade))
+                .map(this::toModel)
                 .collect(Collectors.toList());
     }
 }

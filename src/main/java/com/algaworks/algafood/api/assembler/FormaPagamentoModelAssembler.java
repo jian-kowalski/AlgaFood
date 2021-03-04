@@ -8,20 +8,17 @@ import com.algaworks.algafood.api.Model.FormaPagamentoModel;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FormaPagamentoModelAssembler {
 
-    @Autowired
-    private ModelMapper modelMapper;
-
     public FormaPagamentoModel toModel(FormaPagamento formaPagamento) {
+        var modelMapper = new ModelMapper();
         return modelMapper.map(formaPagamento, FormaPagamentoModel.class);
     }
 
     public List<FormaPagamentoModel> toCollectionModel(Collection<FormaPagamento> formaPagamentos) {
-        return formaPagamentos.stream().map(cidade -> toModel(cidade)).collect(Collectors.toList());
+        return formaPagamentos.stream().map(this::toModel).collect(Collectors.toList());
     }
 }
