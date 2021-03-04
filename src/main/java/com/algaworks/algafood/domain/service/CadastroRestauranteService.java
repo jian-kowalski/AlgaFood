@@ -14,6 +14,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CadastroRestauranteService {
 
@@ -93,6 +96,16 @@ public class CadastroRestauranteService {
         buscar(restauranteId).abrir();
 	}
 
+	@Transactional
+    public void ativarRestarantes(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::ativar);
+    }
+
+    @Transactional
+    public void inativarRestarantes(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::inativar);
+    }
+
     @Transactional
 	public void fechar(Long restauranteId) {
         buscar(restauranteId).fechar();
@@ -121,6 +134,5 @@ public class CadastroRestauranteService {
     public void adicionaeResponsavelDoRestaurante(Long restauranteId, Long usuarioId) {
         buscar(restauranteId).adicionarResponsavel(cadastroUsuarioService.buscar(usuarioId));
     }
-
 
 }

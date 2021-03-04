@@ -11,6 +11,7 @@ import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
 import com.algaworks.algafood.api.disassembler.RestauranteInputDisassembler;
 import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
@@ -105,6 +106,25 @@ public class RestauranteController {
             return restauranteModelAssembler.toModel(cadastroRestaurante.adicionar(restauranteAtual));
         } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException  e) {
             throw new NegocioException(e.getMessage());
+        }
+    }
+
+    @PutMapping("/ativacaoes")
+    public void ativarMultiplos(@RequestBody  List<Long> resturantesIds){
+        try {
+            cadastroRestaurante.ativarRestarantes(resturantesIds);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
+    }
+
+    @DeleteMapping("/ativacaoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inativarMultiplos(@RequestBody  List<Long> resturantesIds){
+        try {
+            cadastroRestaurante.inativarRestarantes(resturantesIds);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage(), e);
         }
     }
 
