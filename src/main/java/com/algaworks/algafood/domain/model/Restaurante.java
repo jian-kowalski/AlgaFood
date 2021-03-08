@@ -65,7 +65,7 @@ public class Restaurante {
 
     @ManyToMany
     @JoinTable(name = "restaurante_usuario_responsavel", joinColumns = @JoinColumn(name = "restaurante_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
-    private Set<Usuario> UsuariosResponsaveis = new HashSet<>();
+    private Set<Usuario> usuariosResponsaveis = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
@@ -95,11 +95,11 @@ public class Restaurante {
     }
 
     public boolean adicionarResponsavel(Usuario usuario) {
-        return UsuariosResponsaveis.add(usuario);
+        return usuariosResponsaveis.add(usuario);
     }
 
     public boolean removerResponsavel(Usuario usuario) {
-        return UsuariosResponsaveis.remove(usuario);
+        return usuariosResponsaveis.remove(usuario);
     }
 
 }

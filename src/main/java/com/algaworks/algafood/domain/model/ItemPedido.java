@@ -30,9 +30,9 @@ public class ItemPedido {
   private BigDecimal precoUnitario;
 
   @Column(name = "preco_total",nullable = false)
-  private Integer precoTotal;
+  private BigDecimal precoTotal;
 
-  private String obeservacao;
+  private String observacao;
 
   @ManyToOne
   @JoinColumn(nullable = false)
