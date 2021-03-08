@@ -44,7 +44,7 @@ public class Pedido {
   @Column(name = "data_entrega",columnDefinition = "dateTime")
   private OffsetDateTime dataEntrega;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(nullable = false)
   private FormaPagamento formaPagamento;
 
@@ -54,7 +54,7 @@ public class Pedido {
 
   @ManyToOne
   @JoinColumn(name = "usuario_cliente_id", nullable = false)
-  private Usuario usuario;
+  private Usuario cliente;
 
   @Enumerated(EnumType.STRING)
   private StatusPedido status = StatusPedido.CRIADO;
