@@ -12,10 +12,14 @@ import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Getter
+@Setter
 public class ItemPedido {
 
   @Id
@@ -42,4 +46,18 @@ public class ItemPedido {
   @JoinColumn(nullable = false)
   private Produto produto;
 
+  public void calcularPrecoTotal() {
+    BigDecimal precoUnitario = this.getPrecoUnitario();
+    Integer quantidade = this.getQuantidade();
+
+    if (precoUnitario == null) {
+      precoUnitario = BigDecimal.ZERO;
+    }
+
+    if (quantidade == null) {
+      quantidade = 0;
+    }
+
+    this.setPrecoTotal(precoUnitario.multiply(new BigDecimal(quantidade)));
+  }
 }

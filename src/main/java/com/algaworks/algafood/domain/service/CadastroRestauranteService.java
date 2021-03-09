@@ -15,7 +15,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CadastroRestauranteService {
@@ -131,7 +130,7 @@ public class CadastroRestauranteService {
     }
 
     @Transactional
-    public void adicionaeResponsavelDoRestaurante(Long restauranteId, Long usuarioId) {
+    public void adicionarResponsavelDoRestaurante(Long restauranteId, Long usuarioId) {
         buscar(restauranteId).adicionarResponsavel(cadastroUsuarioService.buscar(usuarioId));
     }
 

@@ -62,11 +62,12 @@ public class Pedido {
   @Embedded
   private Endereco enderecoEntrega;
 
-  @OneToMany(mappedBy = "pedido")
+  @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
   private List<ItemPedido> itens = new ArrayList<>();
 
 
   public void calcularValorTotal() {
+    getItens().forEach(ItemPedido::calcularPrecoTotal);
     this.subTotal = getItens()
             .stream()
             .map(ItemPedido::getPrecoTotal)

@@ -34,7 +34,7 @@ public class RestauranteUsuarioResponsavelController {
     @PutMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void associar(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
-        cadastroRestauranteService.adicionaeResponsavelDoRestaurante(restauranteId, usuarioId);
+        cadastroRestauranteService.adicionarResponsavelDoRestaurante(restauranteId, usuarioId);
     }
 
 
