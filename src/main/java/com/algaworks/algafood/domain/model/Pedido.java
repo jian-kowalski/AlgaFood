@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.*;
 
@@ -22,6 +23,8 @@ public class Pedido {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @EqualsAndHashCode.Include
   private Long id;
+
+  private String codigo;
 
   @Column(name = "valor_total", nullable = false)
   private BigDecimal valorTotal;
@@ -66,6 +69,10 @@ public class Pedido {
   @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
   private List<ItemPedido> itens = new ArrayList<>();
 
+  @PrePersist
+  private void gerarCodigo(){
+    setCodigo(UUID.randomUUID().toString());
+  }
 
   public void calcularValorTotal() {
     getItens().forEach(ItemPedido::calcularPrecoTotal);
