@@ -6,6 +6,7 @@ import com.algaworks.algafood.api.Model.input.PedidoInput;
 import com.algaworks.algafood.api.assembler.PedidoModelAssembler;
 import com.algaworks.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.algaworks.algafood.api.disassembler.PedidoInputDisassembler;
+import com.algaworks.algafood.domain.service.CadastroPedidoService;
 import com.algaworks.algafood.domain.service.EmissaoPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,9 @@ public class PedidoController {
     private EmissaoPedidoService emissaoPedido;
 
     @Autowired
+    private CadastroPedidoService cadastroPedido;
+
+    @Autowired
     private PedidoModelAssembler pedidoModelAssembler;
 
     @Autowired
@@ -30,12 +34,12 @@ public class PedidoController {
 
     @GetMapping
     public List<PedidoResumoModel> listarTodos() {
-        return pedidoResumoModelAssembler.toColletionModel(emissaoPedido.buscarTodos());
+        return pedidoResumoModelAssembler.toColletionModel(cadastroPedido.buscarTodos());
     }
 
     @GetMapping("/{pedidoId}")
     public PedidoModel listarPedido(@PathVariable Long pedidoId) {
-        return pedidoModelAssembler.toModel(emissaoPedido.buscar(pedidoId));
+        return pedidoModelAssembler.toModel(cadastroPedido.buscar(pedidoId));
     }
 
     @PostMapping
