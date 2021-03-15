@@ -1,19 +1,17 @@
 package com.algaworks.algafood.domain.service;
 
-import javax.transaction.Transactional;
-
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -30,7 +28,7 @@ public class CadastroRestauranteService {
     @Autowired
     private CadastroCidadeService cadastroCidadeService;
 
-    @Autowired 
+    @Autowired
     private CadastroFormaPagamentoService cadastroFormaPagamentoService;
 
     @Autowired
@@ -46,7 +44,7 @@ public class CadastroRestauranteService {
 
         restaurante.setCozinha(cozinha);
         restaurante.getEndereco().setCidade(cidade);
-        
+
         return restauranteRepository.save(restaurante);
     }
 
@@ -93,9 +91,9 @@ public class CadastroRestauranteService {
     @Transactional
     public void abrir(Long restauranteId) {
         buscar(restauranteId).abrir();
-	}
+    }
 
-	@Transactional
+    @Transactional
     public void ativarRestarantes(List<Long> restauranteIds) {
         restauranteIds.forEach(this::ativar);
     }
@@ -106,21 +104,21 @@ public class CadastroRestauranteService {
     }
 
     @Transactional
-	public void fechar(Long restauranteId) {
+    public void fechar(Long restauranteId) {
         buscar(restauranteId).fechar();
-	}
+    }
 
     @Transactional
     public void removerFormaPagamentoDoRestaurante(Long restauranteId, Long formaPagamentoId) {
         var restaurante = buscar(restauranteId);
-        var formaPagamento =  cadastroFormaPagamentoService.buscar(formaPagamentoId);
+        var formaPagamento = cadastroFormaPagamentoService.buscar(formaPagamentoId);
         restaurante.removerFormaPagamento(formaPagamento);
     }
 
     @Transactional
     public void adicionarFormaPagamentoDoRestaurante(Long restauranteId, Long formaPagamentoId) {
         var restaurante = buscar(restauranteId);
-        var formaPagamento =  cadastroFormaPagamentoService.buscar(formaPagamentoId);
+        var formaPagamento = cadastroFormaPagamentoService.buscar(formaPagamentoId);
         restaurante.adicionarFormaPagamento(formaPagamento);
     }
 

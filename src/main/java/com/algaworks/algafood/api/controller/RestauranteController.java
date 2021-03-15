@@ -1,10 +1,5 @@
 package com.algaworks.algafood.api.controller;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.validation.Valid;
-
 import com.algaworks.algafood.api.Model.RestauranteModel;
 import com.algaworks.algafood.api.Model.input.RestauranteInput;
 import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
@@ -16,18 +11,13 @@ import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -62,7 +52,7 @@ public class RestauranteController {
 
     @GetMapping("/por-nome-e-frente")
     public List<RestauranteModel> restaurantePorNomeEFrente(String nome, BigDecimal taxaFreteInicial,
-            BigDecimal taxaFreteFinal) {
+                                                            BigDecimal taxaFreteFinal) {
         return restauranteModelAssembler.toCollectionModel(
                 restauranteRepository.procurarPorNomeTaxaIncialTaxaFinal(nome, taxaFreteInicial, taxaFreteFinal));
     }
@@ -75,14 +65,14 @@ public class RestauranteController {
 
     @GetMapping("/por-nome-cozinha-taxa")
     public List<RestauranteModel> procurarPorNomeCozinhaTaxa(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
-            BigDecimal taxaFreteFinal) {
+                                                             BigDecimal taxaFreteFinal) {
         return restauranteModelAssembler.toCollectionModel(
                 restauranteRepository.procurarPorNomeCozinhaTaxa(nome, cozinhaId, taxaFreteInicial, taxaFreteFinal));
     }
 
     @GetMapping("/buscar-primeiro")
     public RestauranteModel buscarPrimeiro(String nome, Long cozinhaId, BigDecimal taxaFreteInicial,
-            BigDecimal taxaFreteFinal) {
+                                           BigDecimal taxaFreteFinal) {
         return restauranteModelAssembler.toModel(restauranteRepository.buscarPrimeiro().orElseThrow());
     }
 
@@ -99,18 +89,18 @@ public class RestauranteController {
 
     @PutMapping("/{restauranteId}")
     public RestauranteModel alterar(@PathVariable Long restauranteId,
-            @RequestBody @Valid RestauranteInput restauranteInput) {
+                                    @RequestBody @Valid RestauranteInput restauranteInput) {
         Restaurante restauranteAtual = cadastroRestaurante.buscar(restauranteId);
         restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
         try {
             return restauranteModelAssembler.toModel(cadastroRestaurante.adicionar(restauranteAtual));
-        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException  e) {
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
 
     @PutMapping("/ativacaoes")
-    public void ativarMultiplos(@RequestBody  List<Long> resturantesIds){
+    public void ativarMultiplos(@RequestBody List<Long> resturantesIds) {
         try {
             cadastroRestaurante.ativarRestarantes(resturantesIds);
         } catch (EntidadeNaoEncontradaException e) {
@@ -120,7 +110,7 @@ public class RestauranteController {
 
     @DeleteMapping("/ativacaoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void inativarMultiplos(@RequestBody  List<Long> resturantesIds){
+    public void inativarMultiplos(@RequestBody List<Long> resturantesIds) {
         try {
             cadastroRestaurante.inativarRestarantes(resturantesIds);
         } catch (EntidadeNaoEncontradaException e) {
@@ -136,23 +126,23 @@ public class RestauranteController {
 
     @PutMapping("/{restauranteId}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void ativar(@PathVariable Long restauranteId){
+    public void ativar(@PathVariable Long restauranteId) {
         cadastroRestaurante.ativar(restauranteId);
     }
 
     @DeleteMapping("/{restauranteId}/ativo")
-    public void inativar(@PathVariable Long restauranteId){
+    public void inativar(@PathVariable Long restauranteId) {
         cadastroRestaurante.inativar(restauranteId);
     }
 
     @PutMapping("/{restauranteId}/abertura")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void abrirRestaurante(@PathVariable Long restauranteId){
+    public void abrirRestaurante(@PathVariable Long restauranteId) {
         cadastroRestaurante.abrir(restauranteId);
     }
 
     @PutMapping("/{restauranteId}/fechamento")
-    public void fecharRestaurante(@PathVariable Long restauranteId){
+    public void fecharRestaurante(@PathVariable Long restauranteId) {
         cadastroRestaurante.fechar(restauranteId);
     }
 

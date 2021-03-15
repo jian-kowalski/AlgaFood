@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 @Component
 public class PedidoModelAssembler {
 
-    public PedidoModel toModel(Pedido pedido){
+    public PedidoModel toModel(Pedido pedido) {
         var modelMappper = new ModelMapper();
-        return modelMappper.map(pedido,PedidoModel.class);
+        return modelMappper.map(pedido, PedidoModel.class);
     }
 
     public List<PedidoModel> toColletionModel(Collection<Pedido> pedidos) {

@@ -1,14 +1,13 @@
 package com.algaworks.algafood.api.assembler;
 
+import com.algaworks.algafood.api.Model.FormaPagamentoModel;
+import com.algaworks.algafood.domain.model.FormaPagamento;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.algaworks.algafood.api.Model.FormaPagamentoModel;
-import com.algaworks.algafood.domain.model.FormaPagamento;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
 
 @Component
 public class FormaPagamentoModelAssembler {

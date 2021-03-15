@@ -2,7 +2,6 @@ package com.algaworks.algafood.api.disassembler;
 
 import com.algaworks.algafood.api.Model.input.PermissaoInput;
 import com.algaworks.algafood.domain.model.Permissao;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,5 +17,5 @@ public class PermissaoInputDisassembler {
 
     public void copyToDomainObject(PermissaoInput permissaoInput, Permissao permissao) {
         modelMapper.map(permissaoInput, permissao);
-    }  
+    }
 }

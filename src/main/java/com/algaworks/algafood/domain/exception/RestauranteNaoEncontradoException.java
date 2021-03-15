@@ -4,11 +4,12 @@ public class RestauranteNaoEncontradoException extends EntidadeNaoEncontradaExce
 
     private static final long serialVersionUID = 1L;
 
-    public RestauranteNaoEncontradoException(String mensagem){
+    public RestauranteNaoEncontradoException(String mensagem) {
         super(mensagem);
     }
-    public RestauranteNaoEncontradoException(Long restauranteId){
+
+    public RestauranteNaoEncontradoException(Long restauranteId) {
         super(String.format("Restaurante não encontrado para o código %d.", restauranteId));
     }
-    
+
 }

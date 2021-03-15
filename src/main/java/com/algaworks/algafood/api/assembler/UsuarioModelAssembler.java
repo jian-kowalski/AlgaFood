@@ -1,15 +1,13 @@
 package com.algaworks.algafood.api.assembler;
 
-import java.util.Collection;
-import java.util.List;
-
-import java.util.stream.Collectors;
-
 import com.algaworks.algafood.api.Model.UsuarioModel;
 import com.algaworks.algafood.domain.model.Usuario;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UsuarioModelAssembler {
@@ -20,7 +18,7 @@ public class UsuarioModelAssembler {
     }
 
     public List<UsuarioModel> toColletion(Collection<Usuario> usuarios) {
-      return usuarios.stream().map(this::toModel).collect(Collectors.toList());
+        return usuarios.stream().map(this::toModel).collect(Collectors.toList());
     }
-    
+
 }

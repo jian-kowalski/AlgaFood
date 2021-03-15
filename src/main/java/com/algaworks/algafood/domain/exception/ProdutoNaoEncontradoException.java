@@ -3,8 +3,8 @@ package com.algaworks.algafood.domain.exception;
 public class ProdutoNaoEncontradoException extends EntidadeEmUsoException {
 
     /**
-    *
-    */
+     *
+     */
     private static final long serialVersionUID = 1L;
 
     public ProdutoNaoEncontradoException(String mensagem) {

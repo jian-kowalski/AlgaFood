@@ -1,18 +1,16 @@
 package com.algaworks.algafood.api.assembler;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.algaworks.algafood.api.Model.GrupoModel;
 import com.algaworks.algafood.domain.model.Grupo;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter

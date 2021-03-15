@@ -20,7 +20,7 @@ public class RestauranteUsuarioResponsavelController {
     private UsuarioModelAssembler usuarioModelAssembler;
 
     @GetMapping
-    public List<UsuarioModel> listar(@PathVariable Long restauranteId){
+    public List<UsuarioModel> listar(@PathVariable Long restauranteId) {
         return usuarioModelAssembler.toColletion(
                 cadastroRestauranteService.buscar(restauranteId).getUsuariosResponsaveis());
     }

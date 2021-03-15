@@ -2,7 +2,6 @@ package com.algaworks.algafood.api.Model;
 
 
 import com.algaworks.algafood.api.Model.input.CidadeIdInput;
-
 import lombok.Getter;
 import lombok.Setter;
 

@@ -20,7 +20,7 @@ public class UsuarioGrupoController {
     private GrupoModelAssembler grupoModelAssembler;
 
     @GetMapping
-    public List<GrupoModel> listar(@PathVariable Long usuarioId){
+    public List<GrupoModel> listar(@PathVariable Long usuarioId) {
         return grupoModelAssembler
                 .toCollectionModel(cadastroUsuarioService.buscar(usuarioId).getGrupos());
     }

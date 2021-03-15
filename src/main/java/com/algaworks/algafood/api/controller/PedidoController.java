@@ -43,7 +43,7 @@ public class PedidoController {
     }
 
     @PostMapping
-    public PedidoModel adicionar(@RequestBody PedidoInput pedidoInput){
+    public PedidoModel adicionar(@RequestBody PedidoInput pedidoInput) {
         var pedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
         return pedidoModelAssembler.toModel(emissaoPedido.adicionar(pedido));
     }

@@ -6,7 +6,7 @@ public class UsuarioNaoEncontradoException extends EntidadeEmUsoException {
         super(mensagem);
     }
 
-    public UsuarioNaoEncontradoException(Long usuarioId){
+    public UsuarioNaoEncontradoException(Long usuarioId) {
         super(String.format("Usuario não encontrado para o código %d.", usuarioId));
     }
 
@@ -15,5 +15,5 @@ public class UsuarioNaoEncontradoException extends EntidadeEmUsoException {
      */
     private static final long serialVersionUID = 1L;
 
-    
+
 }

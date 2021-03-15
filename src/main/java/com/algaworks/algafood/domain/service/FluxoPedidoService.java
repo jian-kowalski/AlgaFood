@@ -9,7 +9,7 @@ import javax.transaction.Transactional;
 public class FluxoPedidoService {
 
     @Autowired
-    private  CadastroPedidoService cadastroPedido;
+    private CadastroPedidoService cadastroPedido;
 
     @Transactional
     public void confirmar(String codigoPedido) {
