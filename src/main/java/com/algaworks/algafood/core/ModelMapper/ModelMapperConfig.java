@@ -1,6 +1,6 @@
 package com.algaworks.algafood.core.ModelMapper;
 
-import com.algaworks.algafood.api.Model.input.ItemPedidoInput;
+import com.algaworks.algafood.api.model.input.ItemPedidoInput;
 import com.algaworks.algafood.domain.model.ItemPedido;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

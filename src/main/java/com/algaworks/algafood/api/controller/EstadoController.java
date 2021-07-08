@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.Model.EstadoModel;
-import com.algaworks.algafood.api.Model.input.EstadoInput;
+import com.algaworks.algafood.api.model.EstadoModel;
+import com.algaworks.algafood.api.model.input.EstadoInput;
 import com.algaworks.algafood.api.assembler.EstadoModelAssembler;
 import com.algaworks.algafood.api.disassembler.EstadoInputDisassembler;
 import com.algaworks.algafood.domain.model.Estado;

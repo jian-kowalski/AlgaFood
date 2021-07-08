@@ -1,8 +1,8 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.Model.PedidoModel;
-import com.algaworks.algafood.api.Model.PedidoResumoModel;
-import com.algaworks.algafood.api.Model.input.PedidoInput;
+import com.algaworks.algafood.api.model.PedidoModel;
+import com.algaworks.algafood.api.model.PedidoResumoModel;
+import com.algaworks.algafood.api.model.input.PedidoInput;
 import com.algaworks.algafood.api.assembler.PedidoModelAssembler;
 import com.algaworks.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.algaworks.algafood.api.disassembler.PedidoInputDisassembler;

@@ -3,7 +3,6 @@ package com.algaworks.algafood.domain.service;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -11,26 +10,23 @@ import javax.transaction.Transactional;
 @Service
 public class EmissaoPedidoService {
 
-    @Autowired
-    private PedidoRepository pedidoRepository;
+    
+    private final PedidoRepository pedidoRepository;
 
-    @Autowired
-    private CadastroRestauranteService cadastroRestaurante;
+    
+    private final CadastroRestauranteService cadastroRestaurante;
 
-    @Autowired
-    private CadastroUsuarioService cadastroUsuario;
+    
+    private final CadastroUsuarioService cadastroUsuario;
 
-    @Autowired
-    private CadastroCidadeService cadastroCidade;
+    
+    private final CadastroCidadeService cadastroCidade;
 
-    @Autowired
-    private CadastroCozinhaService cadastroCozinha;
+    
+    private final CadastroFormaPagamentoService cadastroFormaPagamento;
 
-    @Autowired
-    private CadastroFormaPagamentoService cadastroFormaPagamento;
-
-    @Autowired
-    private CadastroProdutoService cadastroProduto;
+    
+    private final CadastroProdutoService cadastroProduto;
 
     @Transactional
     public Pedido adicionar(Pedido pedido) {
@@ -68,5 +64,16 @@ public class EmissaoPedidoService {
             throw new NegocioException(String.format("Forma de pagamento '%s' não é aceita por esse restaurante.",
                     formaPagamento.getDescricao()));
         }
+    }
+
+    public EmissaoPedidoService(PedidoRepository pedidoRepository, CadastroRestauranteService cadastroRestaurante,
+            CadastroUsuarioService cadastroUsuario, CadastroCidadeService cadastroCidade,
+            CadastroFormaPagamentoService cadastroFormaPagamento, CadastroProdutoService cadastroProduto) {
+        this.pedidoRepository = pedidoRepository;
+        this.cadastroRestaurante = cadastroRestaurante;
+        this.cadastroUsuario = cadastroUsuario;
+        this.cadastroCidade = cadastroCidade;
+        this.cadastroFormaPagamento = cadastroFormaPagamento;
+        this.cadastroProduto = cadastroProduto;
     }
 }

@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.disassembler;
 
-import com.algaworks.algafood.api.Model.input.ProdutoInput;
+import com.algaworks.algafood.api.model.input.ProdutoInput;
 import com.algaworks.algafood.domain.model.Produto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

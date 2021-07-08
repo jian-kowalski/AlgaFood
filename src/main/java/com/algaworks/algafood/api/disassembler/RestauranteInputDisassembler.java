@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.disassembler;
 
-import com.algaworks.algafood.api.Model.input.RestauranteInput;
+import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;

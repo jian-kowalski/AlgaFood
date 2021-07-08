@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.Model.GrupoModel;
+import com.algaworks.algafood.api.model.GrupoModel;
 import com.algaworks.algafood.domain.model.Grupo;
 import lombok.Getter;
 import lombok.Setter;

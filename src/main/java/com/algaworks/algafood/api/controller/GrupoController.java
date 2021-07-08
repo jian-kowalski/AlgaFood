@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.Model.GrupoModel;
-import com.algaworks.algafood.api.Model.input.GrupoInput;
+import com.algaworks.algafood.api.model.GrupoModel;
+import com.algaworks.algafood.api.model.input.GrupoInput;
 import com.algaworks.algafood.api.assembler.GrupoModelAssembler;
 import com.algaworks.algafood.api.disassembler.GrupoInputDisassembler;
 import com.algaworks.algafood.domain.model.Grupo;
