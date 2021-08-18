@@ -10,6 +10,6 @@ import javax.validation.constraints.NotBlank;
 public class CozinhaIdInput {
 
     @NotBlank
-    private Long Id;
+    private Long id;
 
 }

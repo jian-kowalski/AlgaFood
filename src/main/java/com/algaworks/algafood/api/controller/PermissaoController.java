@@ -1,13 +1,11 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.model.PermissaoModel;
-import com.algaworks.algafood.api.model.input.PermissaoInput;
 import com.algaworks.algafood.api.assembler.PermissaoModelAssembler;
 import com.algaworks.algafood.api.disassembler.PermissaoInputDisassembler;
+import com.algaworks.algafood.api.model.PermissaoModel;
+import com.algaworks.algafood.api.model.input.PermissaoInput;
 import com.algaworks.algafood.domain.model.Permissao;
-import com.algaworks.algafood.domain.repository.PermissaoRepository;
-import com.algaworks.algafood.domain.service.CadastroPermissaoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.algaworks.algafood.domain.service.PermissaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,46 +16,48 @@ import java.util.List;
 @RequestMapping("/permissoes")
 public class PermissaoController {
 
-    @Autowired
-    private PermissaoRepository permissaoRepository;
+    private final PermissaoService permissaoService;
 
-    @Autowired
-    private CadastroPermissaoService cadastroPermissao;
+    private final PermissaoModelAssembler permissaoModelAssembler;
 
-    @Autowired
-    private PermissaoModelAssembler permissaoModelAssembler;
+    private final PermissaoInputDisassembler permissaoInputDisassembler;
 
-    @Autowired
-    private PermissaoInputDisassembler permissaoInputDisassembler;
+    public PermissaoController(PermissaoService permissaoService,
+                               PermissaoModelAssembler permissaoModelAssembler, PermissaoInputDisassembler permissaoInputDisassembler) {
+        this.permissaoService = permissaoService;
+        this.permissaoModelAssembler = permissaoModelAssembler;
+        this.permissaoInputDisassembler = permissaoInputDisassembler;
+    }
+
 
     @GetMapping
     public List<PermissaoModel> listar() {
-        return permissaoModelAssembler.toCollectionModel(permissaoRepository.findAll());
+        return permissaoModelAssembler.toCollectionModel(permissaoService.buscarPermissoes());
     }
 
     @GetMapping("/{permissaoId}")
     public PermissaoModel buscar(@PathVariable Long permissaoId) {
-        return permissaoModelAssembler.toModel(cadastroPermissao.buscar(permissaoId));
+        return permissaoModelAssembler.toModel(permissaoService.buscar(permissaoId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PermissaoModel adicionar(@RequestBody @Valid PermissaoInput permissaoInput) {
         Permissao permissao = permissaoInputDisassembler.toDomainObject(permissaoInput);
-        return permissaoModelAssembler.toModel(cadastroPermissao.adicionar(permissao));
+        return permissaoModelAssembler.toModel(permissaoService.adicionar(permissao));
     }
 
     @PutMapping("/{permissaoId}")
     public PermissaoModel alterar(@PathVariable Long permissaoId, @RequestBody @Valid PermissaoInput permissaoInput) {
-        Permissao permissaoAtual = cadastroPermissao.buscar(permissaoId);
+        Permissao permissaoAtual = permissaoService.buscar(permissaoId);
         permissaoInputDisassembler.copyToDomainObject(permissaoInput, permissaoAtual);
-        return permissaoModelAssembler.toModel(cadastroPermissao.adicionar(permissaoAtual));
+        return permissaoModelAssembler.toModel(permissaoService.adicionar(permissaoAtual));
     }
 
     @DeleteMapping("/{permissaoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long permissaoId) {
-        cadastroPermissao.remover(permissaoId);
+        permissaoService.remover(permissaoId);
     }
 
 }

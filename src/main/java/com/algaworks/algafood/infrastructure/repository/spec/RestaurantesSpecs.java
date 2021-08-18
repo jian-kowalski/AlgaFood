@@ -9,6 +9,9 @@ import java.math.BigDecimal;
 
 public class RestaurantesSpecs {
 
+    private RestaurantesSpecs() {
+    }
+
     public static Specification<Restaurante> comFreteGratis() {
         return (root, query, builder) -> builder.equal(root.get("taxaFrete"), BigDecimal.ZERO);
     }

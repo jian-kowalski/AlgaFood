@@ -1,13 +1,11 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.model.CozinhaModel;
-import com.algaworks.algafood.api.model.input.CozinhaInput;
 import com.algaworks.algafood.api.assembler.CozinhaModelAssembler;
 import com.algaworks.algafood.api.disassembler.CozinhaInputDisassembler;
+import com.algaworks.algafood.api.model.CozinhaModel;
+import com.algaworks.algafood.api.model.input.CozinhaInput;
 import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.repository.CozinhaRepository;
-import com.algaworks.algafood.domain.service.CadastroCozinhaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.algaworks.algafood.domain.service.CozinhaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,26 +16,27 @@ import java.util.List;
 @RequestMapping("/cozinhas")
 public class CozinhaController {
 
-    @Autowired
-    private CozinhaRepository cozinhaRepository;
+    private final CozinhaService cozinhaService;
 
-    @Autowired
-    private CadastroCozinhaService cadastroCozinha;
+    private final CozinhaModelAssembler cozinhaModelAssembler;
+    private final CozinhaInputDisassembler cozinhaInputDisassembler;
 
-    @Autowired
-    private CozinhaModelAssembler CozinhaModelAssembler;
-
-    @Autowired
-    private CozinhaInputDisassembler cozinhaInputDisassembler;
+    public CozinhaController(CozinhaService cozinhaService,
+                             CozinhaModelAssembler cozinhaModelAssembler,
+                             CozinhaInputDisassembler cozinhaInputDisassembler) {
+        this.cozinhaService = cozinhaService;
+        this.cozinhaModelAssembler = cozinhaModelAssembler;
+        this.cozinhaInputDisassembler = cozinhaInputDisassembler;
+    }
 
     @GetMapping
     public List<CozinhaModel> listar() {
-        return CozinhaModelAssembler.toCollectionModel(cozinhaRepository.findAll());
+        return cozinhaModelAssembler.toCollectionModel(cozinhaService.buscarCozinhas());
     }
 
     @GetMapping("/{cozinhaId}")
     public CozinhaModel buscar(@PathVariable Long cozinhaId) {
-        return CozinhaModelAssembler.toModel(cadastroCozinha.buscar(cozinhaId));
+        return cozinhaModelAssembler.toModel(cozinhaService.buscar(cozinhaId));
     }
 
     @PostMapping
@@ -45,19 +44,19 @@ public class CozinhaController {
     public CozinhaModel adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
         Cozinha cozinha = cozinhaInputDisassembler.toDomainObject(cozinhaInput);
 
-        return CozinhaModelAssembler.toModel(cadastroCozinha.adicionar(cozinha));
+        return cozinhaModelAssembler.toModel(cozinhaService.adicionar(cozinha));
     }
 
     @PutMapping("/{cozinhaId}")
     public CozinhaModel atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinhaInput) {
-        Cozinha cozinhaAtual = cadastroCozinha.buscar(cozinhaId);
+        Cozinha cozinhaAtual = cozinhaService.buscar(cozinhaId);
         cozinhaInputDisassembler.copyToDomainObject(cozinhaInput, cozinhaAtual);
-        return CozinhaModelAssembler.toModel(cadastroCozinha.adicionar(cozinhaAtual));
+        return cozinhaModelAssembler.toModel(cozinhaService.adicionar(cozinhaAtual));
     }
 
     @DeleteMapping("/{cozinhaId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long cozinhaId) {
-        cadastroCozinha.remover(cozinhaId);
+        cozinhaService.remover(cozinhaId);
     }
 }
