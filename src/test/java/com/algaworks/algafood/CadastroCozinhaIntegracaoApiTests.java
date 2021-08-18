@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
-public class CadastroCozinhaIntegracaoApiTests {
+class CadastroCozinhaIntegracaoApiTests {
 
     private static final int COZINHA_ID_INEXISTENTE = 100;
 
@@ -48,7 +48,7 @@ public class CadastroCozinhaIntegracaoApiTests {
     }
 
     @Test
-    public void testarStatus200ConsultarCozinha() {
+    void testarStatus200ConsultarCozinha() {
         RestAssured.given()
                 .accept(ContentType.JSON)
                 .when()
@@ -58,7 +58,7 @@ public class CadastroCozinhaIntegracaoApiTests {
     }
 
     @Test
-    public void testarStatusCorretoQuandoConsultarCozinhaExistente() {
+    void testarStatusCorretoQuandoConsultarCozinhaExistente() {
         RestAssured.given()
                 .pathParam("cozinhaId", cozinhaAmericana.getId())
                 .accept(ContentType.JSON)
@@ -70,7 +70,7 @@ public class CadastroCozinhaIntegracaoApiTests {
     }
 
     @Test
-    public void testarStatus201CadastrarCozinha() {
+    void testarStatus201CadastrarCozinha() {
         RestAssured.given()
                 .body(jsonCorretoCozinhaChinesa)
                 .contentType(ContentType.JSON)
@@ -82,7 +82,7 @@ public class CadastroCozinhaIntegracaoApiTests {
     }
 
     @Test
-    public void testarCozinhasNaoNula() {
+    void testarCozinhasNaoNula() {
         RestAssured.given()
                 .accept(ContentType.JSON)
                 .when()
@@ -92,7 +92,7 @@ public class CadastroCozinhaIntegracaoApiTests {
     }
 
     @Test
-    public void testarStatus404QuandoConsultarCozinhaInexistente() {
+    void testarStatus404QuandoConsultarCozinhaInexistente() {
         RestAssured.given()
                 .pathParam("cozinhaId", COZINHA_ID_INEXISTENTE)
                 .accept(ContentType.JSON)

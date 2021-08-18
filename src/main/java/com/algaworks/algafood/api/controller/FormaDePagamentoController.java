@@ -1,13 +1,11 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.model.FormaPagamentoModel;
-import com.algaworks.algafood.api.model.input.FormaPagamentoInput;
 import com.algaworks.algafood.api.assembler.FormaPagamentoModelAssembler;
 import com.algaworks.algafood.api.disassembler.FormaPagamentoInputDisassembler;
+import com.algaworks.algafood.api.model.FormaPagamentoModel;
+import com.algaworks.algafood.api.model.input.FormaPagamentoInput;
 import com.algaworks.algafood.domain.model.FormaPagamento;
-import com.algaworks.algafood.domain.repository.FormaPagamantoRepository;
-import com.algaworks.algafood.domain.service.CadastroFormaPagamentoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.algaworks.algafood.domain.service.FormaPagamentoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,46 +16,46 @@ import java.util.List;
 @RequestMapping("/formasPagamento")
 public class FormaDePagamentoController {
 
-    @Autowired
-    private FormaPagamantoRepository formaPagamantoRepository;
+    private final FormaPagamentoService formaPagamentoService;
+    private final FormaPagamentoModelAssembler formaPagamentoModelAssembler;
+    private final FormaPagamentoInputDisassembler formaPagamentoInputDisassembler;
 
-    @Autowired
-    private CadastroFormaPagamentoService cadastroFormaPagamento;
-
-    @Autowired
-    private FormaPagamentoModelAssembler formaPagamentoModelAssembler;
-
-    @Autowired
-    private FormaPagamentoInputDisassembler formaPagamentoInputDisassembler;
+    public FormaDePagamentoController(FormaPagamentoService formaPagamentoService,
+                                      FormaPagamentoModelAssembler formaPagamentoModelAssembler,
+                                      FormaPagamentoInputDisassembler formaPagamentoInputDisassembler) {
+        this.formaPagamentoService = formaPagamentoService;
+        this.formaPagamentoModelAssembler = formaPagamentoModelAssembler;
+        this.formaPagamentoInputDisassembler = formaPagamentoInputDisassembler;
+    }
 
     @GetMapping
     public List<FormaPagamentoModel> listar() {
-        return formaPagamentoModelAssembler.toCollectionModel(formaPagamantoRepository.findAll());
+        return formaPagamentoModelAssembler.toCollectionModel(formaPagamentoService.getFormasPagamento());
     }
 
     @GetMapping("/{formaPagamentoId}")
     public FormaPagamentoModel buscar(@PathVariable Long formaPagamentoId) {
-        return formaPagamentoModelAssembler.toModel(cadastroFormaPagamento.buscar(formaPagamentoId));
+        return formaPagamentoModelAssembler.toModel(formaPagamentoService.buscar(formaPagamentoId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FormaPagamentoModel adicionar(@RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
         FormaPagamento formaPagamento = formaPagamentoInputDisassembler.toDomainObject(formaPagamentoInput);
-        return formaPagamentoModelAssembler.toModel(cadastroFormaPagamento.adicionar(formaPagamento));
+        return formaPagamentoModelAssembler.toModel(formaPagamentoService.adicionar(formaPagamento));
     }
 
     @PutMapping("/{formaPagamentoId}")
     public FormaPagamentoModel atualizar(@PathVariable Long formaPagamentoId,
                                          @RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
-        FormaPagamento formaPagamentoAtual = cadastroFormaPagamento.buscar(formaPagamentoId);
+        FormaPagamento formaPagamentoAtual = formaPagamentoService.buscar(formaPagamentoId);
         formaPagamentoInputDisassembler.copyToDomainObject(formaPagamentoInput, formaPagamentoAtual);
-        return formaPagamentoModelAssembler.toModel(cadastroFormaPagamento.adicionar(formaPagamentoAtual));
+        return formaPagamentoModelAssembler.toModel(formaPagamentoService.adicionar(formaPagamentoAtual));
     }
 
     @DeleteMapping("/{formaPagamentoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long formaPagamentoId) {
-        cadastroFormaPagamento.remover(formaPagamentoId);
+        formaPagamentoService.remover(formaPagamentoId);
     }
 }

@@ -1,7 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.domain.service.FluxoPedidoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,8 +8,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/pedidos/{codigoPedido}")
 public class FluxoPedidoController {
 
-    @Autowired
-    private FluxoPedidoService fluxoPedidoService;
+    private final FluxoPedidoService fluxoPedidoService;
+
+    public FluxoPedidoController(FluxoPedidoService fluxoPedidoService) {
+        this.fluxoPedidoService = fluxoPedidoService;
+    }
 
 
     @PutMapping("/confirmacao")

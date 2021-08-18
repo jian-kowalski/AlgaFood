@@ -14,19 +14,29 @@ public class EmissaoPedidoService {
     private final PedidoRepository pedidoRepository;
 
     
-    private final CadastroRestauranteService cadastroRestaurante;
+    private final RestauranteService cadastroRestaurante;
 
-    
-    private final CadastroUsuarioService cadastroUsuario;
 
-    
-    private final CadastroCidadeService cadastroCidade;
+    private final UsuarioService cadastroUsuario;
 
-    
-    private final CadastroFormaPagamentoService cadastroFormaPagamento;
 
-    
-    private final CadastroProdutoService cadastroProduto;
+    private final CidadeService cadastroCidade;
+
+
+    private final FormaPagamentoService cadastroFormaPagamento;
+
+    private final ProdutoService cadastroProduto;
+
+    public EmissaoPedidoService(PedidoRepository pedidoRepository, RestauranteService cadastroRestaurante,
+                                UsuarioService cadastroUsuario, CidadeService cadastroCidade,
+                                FormaPagamentoService cadastroFormaPagamento, ProdutoService cadastroProduto) {
+        this.pedidoRepository = pedidoRepository;
+        this.cadastroRestaurante = cadastroRestaurante;
+        this.cadastroUsuario = cadastroUsuario;
+        this.cadastroCidade = cadastroCidade;
+        this.cadastroFormaPagamento = cadastroFormaPagamento;
+        this.cadastroProduto = cadastroProduto;
+    }
 
     @Transactional
     public Pedido adicionar(Pedido pedido) {
@@ -66,14 +76,5 @@ public class EmissaoPedidoService {
         }
     }
 
-    public EmissaoPedidoService(PedidoRepository pedidoRepository, CadastroRestauranteService cadastroRestaurante,
-            CadastroUsuarioService cadastroUsuario, CadastroCidadeService cadastroCidade,
-            CadastroFormaPagamentoService cadastroFormaPagamento, CadastroProdutoService cadastroProduto) {
-        this.pedidoRepository = pedidoRepository;
-        this.cadastroRestaurante = cadastroRestaurante;
-        this.cadastroUsuario = cadastroUsuario;
-        this.cadastroCidade = cadastroCidade;
-        this.cadastroFormaPagamento = cadastroFormaPagamento;
-        this.cadastroProduto = cadastroProduto;
-    }
+
 }

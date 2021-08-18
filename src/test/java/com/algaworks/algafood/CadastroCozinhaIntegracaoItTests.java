@@ -1,9 +1,9 @@
 package com.algaworks.algafood;
 
-import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.service.CadastroCozinhaService;
+import com.algaworks.algafood.domain.service.CozinhaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestPropertySource("/application-test.properties")
-public class CadastroCozinhaIntegracaoItTests {
+class CadastroCozinhaIntegracaoItTests {
 
     @Autowired
-    private CadastroCozinhaService cadastroCozinha;
+    private CozinhaService cadastroCozinha;
 
     @Test
-    public void testarCadastroCozinhaComSucesso() {
+    void testarCadastroCozinhaComSucesso() {
         Cozinha novaCozinha = new Cozinha();
         novaCozinha.setNome("Chinesa");
         novaCozinha = cadastroCozinha.adicionar(novaCozinha);
@@ -31,26 +31,26 @@ public class CadastroCozinhaIntegracaoItTests {
     }
 
     @Test
-    public void testarCadastroCozinhaSemDescricao() {
+    void testarCadastroCozinhaSemDescricao() {
         Cozinha novaCozinha = new Cozinha();
         novaCozinha.setNome("");
         assertThrows(ConstraintViolationException.class, () -> cadastroCozinha.adicionar(novaCozinha));
     }
 
     @Test
-    public void testarCadastroCozinhaComDecricaoNula() {
+    void testarCadastroCozinhaComDecricaoNula() {
         Cozinha novaCozinha = new Cozinha();
         novaCozinha.setNome(null);
         assertThrows(ConstraintViolationException.class, () -> cadastroCozinha.adicionar(novaCozinha));
     }
 
     @Test
-    public void testarExclusaoDeCozinhaEmUso() {
+    void testarExclusaoDeCozinhaEmUso() {
         assertThrows(EntidadeEmUsoException.class, () -> cadastroCozinha.remover(1L));
     }
 
     @Test
-    public void testarExclusaoDeCozinhaInexitente() {
-        assertThrows(CozinhaNaoEncontradaException.class, () -> cadastroCozinha.remover(155L));
+    void testarExclusaoDeCozinhaInexitente() {
+        assertThrows(EntidadeNaoEncontradaException.class, () -> cadastroCozinha.remover(155L));
     }
 }

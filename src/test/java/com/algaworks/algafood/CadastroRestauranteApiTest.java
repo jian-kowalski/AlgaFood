@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
-public class CadastroRestauranteApiTest {
+class CadastroRestauranteApiTest {
 
     private static final String VIOLACAO_DE_REGRA_DE_NEGOCIO_PROBLEM_TYPE = "Violação de regra de negócio";
 
@@ -49,7 +49,7 @@ public class CadastroRestauranteApiTest {
     private Restaurante burgerTopRestaurante;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         RestAssured.port = port;
         RestAssured.basePath = "/restaurantes";
@@ -71,7 +71,7 @@ public class CadastroRestauranteApiTest {
     }
 
     @Test
-    public void testarStatus200QuandoConsultarRestaurantes() {
+    void testarStatus200QuandoConsultarRestaurantes() {
         RestAssured.given()
                 .accept(ContentType.JSON)
                 .when()
@@ -81,7 +81,7 @@ public class CadastroRestauranteApiTest {
     }
 
     @Test
-    public void testarStatus201QuandoCadastrarRestaurante() {
+    void testarStatus201QuandoCadastrarRestaurante() {
         RestAssured.given()
                 .body(jsonRestauranteCorreto)
                 .contentType(ContentType.JSON)
@@ -93,7 +93,7 @@ public class CadastroRestauranteApiTest {
     }
 
     @Test
-    public void testarStatus400QuandoCadastrarRestauranteSemTaxaFrete() {
+    void testarStatus400QuandoCadastrarRestauranteSemTaxaFrete() {
         RestAssured.given()
                 .body(jsonRestauranteSemFrete)
                 .contentType(ContentType.JSON)
@@ -106,7 +106,7 @@ public class CadastroRestauranteApiTest {
     }
 
     @Test
-    public void testarStatus400QuandoCadastrarRestauranteSemCozinha() {
+    void testarStatus400QuandoCadastrarRestauranteSemCozinha() {
         RestAssured.given()
                 .body(jsonRestauranteSemCozinha)
                 .contentType(ContentType.JSON)
@@ -119,7 +119,7 @@ public class CadastroRestauranteApiTest {
     }
 
     @Test
-    public void testarStatus400QuandoCadastrarRestauranteComCozinhaInexistente() {
+    void testarStatus400QuandoCadastrarRestauranteComCozinhaInexistente() {
         RestAssured.given()
                 .body(jsonRestauranteComCozinhaInexistente)
                 .contentType(ContentType.JSON)
@@ -132,7 +132,7 @@ public class CadastroRestauranteApiTest {
     }
 
     @Test
-    public void testarRespostaEStatusCorretosQuandoConsultarRestauranteExistente() {
+    void testarRespostaEStatusCorretosQuandoConsultarRestauranteExistente() {
         RestAssured.given()
                 .pathParam("restauranteId", burgerTopRestaurante.getId())
                 .accept(ContentType.JSON)
@@ -144,7 +144,7 @@ public class CadastroRestauranteApiTest {
     }
 
     @Test
-    public void testarStatus404QuandoConsultarRestauranteInexistente() {
+    void testarStatus404QuandoConsultarRestauranteInexistente() {
         RestAssured.given()
                 .pathParam("restauranteId", RESTAURANTE_ID_INEXISTENTE)
                 .accept(ContentType.JSON)

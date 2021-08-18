@@ -1,6 +1,5 @@
 package com.algaworks.algafood.domain.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -8,24 +7,27 @@ import javax.transaction.Transactional;
 @Service
 public class FluxoPedidoService {
 
-    @Autowired
-    private CadastroPedidoService cadastroPedido;
+    private final PedidoService pedidoService;
+
+    public FluxoPedidoService(PedidoService pedidoService) {
+        this.pedidoService = pedidoService;
+    }
 
     @Transactional
     public void confirmar(String codigoPedido) {
-        var pedido = cadastroPedido.buscar(codigoPedido);
+        var pedido = pedidoService.buscar(codigoPedido);
         pedido.confirmar();
     }
 
     @Transactional
     public void entregar(String codigoPedido) {
-        var pedido = cadastroPedido.buscar(codigoPedido);
+        var pedido = pedidoService.buscar(codigoPedido);
         pedido.entregar();
     }
 
     @Transactional
     public void cancelar(String codigoPedido) {
-        var pedido = cadastroPedido.buscar(codigoPedido);
+        var pedido = pedidoService.buscar(codigoPedido);
         pedido.cancelar();
     }
 
