@@ -61,7 +61,7 @@ public class EmissaoPedidoService {
 
     private void validarPedido(Pedido pedido) {
         var cidade = cadastroCidade.buscar(pedido.getEnderecoEntrega().getCidade().getId());
-        var cliente = cadastroUsuario.buscar(1L);
+        var cliente = cadastroUsuario.buscar(3L);
         var restaurante = cadastroRestaurante.buscar(pedido.getRestaurante().getId());
         var formaPagamento = cadastroFormaPagamento.buscar(pedido.getFormaPagamento().getId());
 

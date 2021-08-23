@@ -7,9 +7,9 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 
 
-public class RestaurantesSpecs {
+public class RestauranteSpecs {
 
-    private RestaurantesSpecs() {
+    private RestauranteSpecs() {
     }
 
     public static Specification<Restaurante> comFreteGratis() {

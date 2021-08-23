@@ -34,9 +34,10 @@ public class RestauranteProdutoController {
     }
 
     @GetMapping
-    public List<ProdutoModel> listar(@PathVariable Long restauranteId) {
+    public List<ProdutoModel> listar(@PathVariable Long restauranteId,
+        @RequestParam(required = false) boolean inativos) {
         Restaurante restaurante = cadastroRestaurante.buscar(restauranteId);
-        return produtoModelAssembler.toColletion(produtoService.buscarProRestaurante(restaurante));
+        return produtoModelAssembler.toColletion(produtoService.buscarPorRestaurante(inativos, restaurante));
     }
 
     @GetMapping("/{produtoId}")

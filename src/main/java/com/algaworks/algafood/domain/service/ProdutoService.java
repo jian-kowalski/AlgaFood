@@ -29,7 +29,9 @@ public class ProdutoService {
                         restauranteId)));
     }
 
-    public List<Produto> buscarProRestaurante(Restaurante restaurante) {
-        return produtoRepository.findByRestaurante(restaurante);
+    public List<Produto> buscarPorRestaurante(boolean inativos, Restaurante restaurante) {
+        if (inativos)
+            return produtoRepository.findByRestaurante(restaurante);
+        return produtoRepository.findAtivosByRestaurante(restaurante);
     }
 }
