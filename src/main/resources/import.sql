@@ -31,13 +31,18 @@ INSERT INTO restaurante (endereco_bairo, endereco_cep, endereco_complemento, end
 INSERT INTO restaurante (endereco_bairo, endereco_cep, endereco_complemento, endereco_logradouro, endereco_numero, nome, taxa_frete, cozinha_id, endereco_cidade_id, data_cadastro, data_atualizacao, ativo) VALUES('Centro', '85520-568', 'apto 1005', 'Pedro Ramires de mello', '1005', 'Edificio Agape', 10.1, 1, 1, utc_timestamp, utc_timestamp, 1);
 INSERT INTO restaurante (endereco_bairo, endereco_cep, endereco_complemento, endereco_logradouro, endereco_numero, nome, taxa_frete, cozinha_id, endereco_cidade_id, data_cadastro, data_atualizacao, ativo) VALUES('Centro', '85520-568', 'apto 1005', 'Pedro Ramires de mello', '1005', 'Edificio Agape', 10.1, 1, 1, utc_timestamp, utc_timestamp, 1);
 
-insert into forma_pagamento (descricao) values ('Dinheiro ');  
+insert into forma_pagamento (descricao) values ('Dinheiro');
 insert into forma_pagamento (descricao) values ('Cartão');  
 insert into forma_pagamento (descricao) values ('PicPay');  
 
 insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) values (1,1);
 insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) values (1,2);
 insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) values (1,3);
+insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) values (2,3);
+
+insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) values (1,2);
+insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) values (2,2);
+insert into restaurante_forma_pagamento(restaurante_id, forma_pagamento_id) values (3,2);
 
 insert into permissao (nome) values ('Total');  
 insert into permissao (nome) values ('Media');  
