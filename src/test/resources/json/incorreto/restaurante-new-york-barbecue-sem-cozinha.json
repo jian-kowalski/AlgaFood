@@ -1,0 +1,14 @@
+{
+  "nome": "New York Barbecue",
+  "taxaFrete": 12,
+  "endereco": {
+    "cep": "85520-568",
+    "logradouro": "Joao pessoa",
+    "numero": "500",
+    "complemento": "apto 1005",
+    "bairo": "Centro",
+    "cidade": {
+      "id": 1
+    }
+  }
+}
