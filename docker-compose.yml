@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "algafood"
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/jian/workspace/docker/volumes/MySql:/var/lib/mysql
+  #algafood:
+   # container_name: algafood
+    #image: algafood:15
+    #restart: always
+    #ports:
+     # - 8080:8080
+   # depends_on:
+    #  - mysql

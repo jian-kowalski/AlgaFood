@@ -1,3 +1,4 @@
+
 package com.algaworks.algafood.core.validation;
 
 import javax.validation.Constraint;
@@ -10,15 +11,16 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE,
         ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {FileSizeValidator.class})
-public @interface FileSize {
+@Constraint(validatedBy = {FileContentTypeValidator.class})
+public @interface FileContentType {
 
-    Class<?>[] groups() default { };
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default {};
 
-    String message() default "Tamanho do arquivo inválido";
+    String message() default "Arquivo com a  não aceita";
 
-    String max();
+    String[] allowed();
+
 
 }

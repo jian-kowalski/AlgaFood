@@ -7,6 +7,8 @@ import com.algaworks.algafood.util.ResourceUtils;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,7 @@ class CadastroCozinhaIntegracaoApiTests {
         databaseCleaner.clearTables();
         prepararDados();
     }
+
 
     @Test
     void testarStatus200ConsultarCozinha() {

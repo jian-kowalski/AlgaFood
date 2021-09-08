@@ -34,4 +34,7 @@ public class ProdutoService {
             return produtoRepository.findByRestaurante(restaurante);
         return produtoRepository.findAtivosByRestaurante(restaurante);
     }
+
+    public void atualizarFoto() {
+    }
 }

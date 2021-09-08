@@ -12,6 +12,9 @@ DELETE FROM algafood.restaurante;
 DELETE FROM algafood.restaurante_forma_pagamento;
 DELETE FROM algafood.usuario;
 DELETE FROM algafood.usuario_grupo;
+DELETE FROM algafood.item_pedido;
+DELETE FROM algafood.pedido;
+DELETE FROM algafood.foto_produto;
 
 set foreign_key_checks = 1;
 

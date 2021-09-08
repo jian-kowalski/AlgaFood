@@ -1,9 +1,11 @@
 package com.algaworks.algafood;
 
-import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.service.CozinhaService;
+import com.algaworks.algafood.domain.service.RestauranteService;
+import com.algaworks.algafood.util.DatabaseCleaner;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,12 @@ class CadastroCozinhaIntegracaoItTests {
     @Autowired
     private CozinhaService cadastroCozinha;
 
+    @Autowired
+    private RestauranteService restauranteService;
+
+    @Autowired
+    private DatabaseCleaner databaseCleaner;
+
     @Test
     void testarCadastroCozinhaComSucesso() {
         Cozinha novaCozinha = new Cozinha();
@@ -28,6 +36,12 @@ class CadastroCozinhaIntegracaoItTests {
         novaCozinha = cadastroCozinha.adicionar(novaCozinha);
         assertThat(novaCozinha).isNotNull();
         assertThat(novaCozinha.getId()).isNotNull();
+    }
+
+    @BeforeEach
+    void setUp(){
+        System.out.println("entrou");
+        databaseCleaner.clearTables();
     }
 
     @Test
@@ -44,10 +58,6 @@ class CadastroCozinhaIntegracaoItTests {
         assertThrows(ConstraintViolationException.class, () -> cadastroCozinha.adicionar(novaCozinha));
     }
 
-    @Test
-    void testarExclusaoDeCozinhaEmUso() {
-        assertThrows(EntidadeEmUsoException.class, () -> cadastroCozinha.remover(1L));
-    }
 
     @Test
     void testarExclusaoDeCozinhaInexitente() {

@@ -1,8 +1,12 @@
 package com.algaworks.algafood;
 
+import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.util.DatabaseCleaner;
 import com.algaworks.algafood.util.ResourceUtils;
@@ -23,8 +27,6 @@ import java.math.BigDecimal;
 @TestPropertySource("/application-test.properties")
 class CadastroRestauranteApiTest {
 
-    private static final String VIOLACAO_DE_REGRA_DE_NEGOCIO_PROBLEM_TYPE = "Violação de regra de negócio";
-
     private static final String DADOS_INVALIDOS_PROBLEM_TITLE = "Dados inválidos";
 
     private static final int RESTAURANTE_ID_INEXISTENTE = 100;
@@ -41,6 +43,12 @@ class CadastroRestauranteApiTest {
     @Autowired
     private RestauranteRepository restauranteRepository;
 
+    @Autowired
+    private EstadoRepository estadoRepository;
+
+    @Autowired
+    private CidadeRepository cidadeRepository;
+
     private String jsonRestauranteCorreto;
     private String jsonRestauranteSemFrete;
     private String jsonRestauranteSemCozinha;
@@ -50,6 +58,7 @@ class CadastroRestauranteApiTest {
 
     @BeforeEach
     void setUp() {
+        databaseCleaner.clearTables();
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         RestAssured.port = port;
         RestAssured.basePath = "/restaurantes";
@@ -65,8 +74,6 @@ class CadastroRestauranteApiTest {
 
         jsonRestauranteComCozinhaInexistente = ResourceUtils.getContentFromResource(
                 "/json/incorreto/restaurante-new-york-barbecue-com-cozinha-inexistente.json");
-
-        databaseCleaner.clearTables();
         prepararDados();
     }
 
@@ -128,7 +135,7 @@ class CadastroRestauranteApiTest {
                 .post()
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("title", Matchers.equalTo(VIOLACAO_DE_REGRA_DE_NEGOCIO_PROBLEM_TYPE));
+                .body("title", Matchers.equalTo(DADOS_INVALIDOS_PROBLEM_TITLE));
     }
 
     @Test
@@ -174,5 +181,10 @@ class CadastroRestauranteApiTest {
         comidaMineiraRestaurante.setTaxaFrete(new BigDecimal(10));
         comidaMineiraRestaurante.setCozinha(cozinhaBrasileira);
         restauranteRepository.save(comidaMineiraRestaurante);
+
+        Cidade cidadeMarmeleiro = new Cidade();
+        cidadeMarmeleiro.setNome("Marmeleiro");
+        cidadeMarmeleiro.setEstado(estadoRepository.save(new Estado("Paraná")));
+        cidadeRepository.save(cidadeMarmeleiro);
     }
 }
