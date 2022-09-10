@@ -1,0 +1,18 @@
+version: "3.6"
+services:
+  mysql:
+    image: mysql/mysql-server:8.0.25
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: algafood
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - 3306:3306
+
+  basic-spring:
+    image: algafood
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql

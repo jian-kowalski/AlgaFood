@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="20210212" author="Jian Kowalski">
+        <createTable tableName="cozinha">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="cozinha_id_pk"/>
+            </column>
+            <column name="nome" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+         <createTable tableName="estado">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="estado_id_pk"/>
+            </column>
+            <column name="nome" type="varchar(80)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cidade">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="cidade_id_pk"/>
+            </column>
+            <column name="nome" type="varchar(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="estado_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="estado_id"
+                             baseTableName="cidade"
+                             constraintName="fk_cidade_estado_id"
+                             referencedColumnNames="id"
+                             referencedTableName="estado"/>
+        
+        <createTable tableName="forma_pagamento">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="forma_pagamento_id_pk"/>
+            </column>
+            <column name="descricao" type="varchar(80)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="grupo">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="grupo_id_pk"/>
+            </column>
+            <column name="nome" type="varchar(80)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="permissao">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="permissao_id_pk"/>
+            </column>
+            <column name="descricao" type="varchar(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nome" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="grupo_permissao">
+            <column name="grupo_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+            <column name="permissao_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="permissao_id"
+                             baseTableName="grupo_permissao"
+                             constraintName="fk_grupo_permissao_permissao"
+                             referencedColumnNames="id"
+                             referencedTableName="permissao"/>
+
+        <addForeignKeyConstraint baseColumnNames="grupo_id"
+                             baseTableName="grupo_permissao"
+                             constraintName="fk_grupo_permissao_grupo"
+                             referencedColumnNames="id"
+                             referencedTableName="grupo"/>
+
+        
+
+        <createTable tableName="produto">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="produto_id_pk"/>
+            </column>
+            <column name="nome" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="descricao" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preco" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+             <column name="ativo" type="tinyint(1)">
+                <constraints nullable="false"/>
+            </column>
+             <column name="restaurante_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="restaurante">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="restaurante_id_pk"/>
+            </column>
+            <column name="nome" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taxa_frete" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_cadastro" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_atualizacao" type="datetime">
+                <constraints nullable="false"/>
+            </column>            
+            <column name="endereco_cep" type="varchar(9)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endereco_logradouro" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endereco_numero" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endereco_complemento" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ativo" type="tinyint(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aberto" type="tinyint(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endereco_bairro" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+             <column name="endereco_cidade_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+             <column name="cozinha_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="restaurante_id"
+                             baseTableName="produto"
+                             constraintName="fk_produto_restaurante"
+                             referencedColumnNames="id"
+                             referencedTableName="restaurante"/>
+
+        
+
+        <addForeignKeyConstraint baseColumnNames="cozinha_id"
+                             baseTableName="restaurante"
+                             constraintName="fk_restaurante_cozinha"
+                             referencedColumnNames="id"
+                             referencedTableName="cozinha"/>
+
+        <addForeignKeyConstraint baseColumnNames="endereco_cidade_id"
+                             baseTableName="restaurante"
+                             constraintName="fk_restaurante_cidade"
+                             referencedColumnNames="id"
+                             referencedTableName="cidade"/>
+
+        <createTable tableName="restaurante_forma_pagamento">
+            <column name="restaurante_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+            <column name="forma_pagamento_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="forma_pagamento_id"
+                             baseTableName="restaurante_forma_pagamento"
+                             constraintName="fk_rest_forma_pagto_forma_pagto"
+                             referencedColumnNames="id"
+                             referencedTableName="forma_pagamento"/>
+
+        <addForeignKeyConstraint baseColumnNames="restaurante_id"
+                             baseTableName="restaurante_forma_pagamento"
+                             constraintName="fk_rest_forma_pagto_restaurante"
+                             referencedColumnNames="id"
+                             referencedTableName="restaurante"/>
+
+        <createTable tableName="usuario">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="usuario_id_pk"/>
+            </column>
+            <column name="nome" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_cadastro" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="senha" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            
+        </createTable>
+
+         <createTable tableName="usuario_grupo">
+            <column name="usuario_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+            <column name="grupo_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="grupo_id"
+                             baseTableName="usuario_grupo"
+                             constraintName="fk_usuario_grupo_grupo"
+                             referencedColumnNames="id"
+                             referencedTableName="grupo"/>
+
+        <addForeignKeyConstraint baseColumnNames="usuario_id"
+                             baseTableName="usuario_grupo"
+                             constraintName="fk_usuario_grupo_usuario"
+                             referencedColumnNames="id"
+                             referencedTableName="usuario"/>
+
+        
+        <createTable tableName="pedido">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pedido_id_pk"/>
+            </column>
+
+            <column name="codigo" type="uuid">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_pedido_codigo"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>          
+            <column name="subtotal" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taxa_frete" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valor_total" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_criacao" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_atualizacao" type="datetime"/>
+            <column name="data_confirmacao" type="datetime"/>
+            <column name="data_cancelamento" type="datetime"/>
+            <column name="data_entrega" type="datetime"/>
+            <column name="endereco_cep" type="varchar(9)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endereco_logradouro" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endereco_numero" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endereco_complemento" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endereco_bairro" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+             <column name="endereco_cidade_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+             <column name="restaurante_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+            <column name="usuario_cliente_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+            <column name="forma_pagamento_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="endereco_cidade_id"
+                             baseTableName="pedido"
+                             constraintName="fk_pedido_endereco_cidade"
+                             referencedColumnNames="id"
+                             referencedTableName="cidade"/>
+
+        <addForeignKeyConstraint baseColumnNames="restaurante_id"
+                             baseTableName="pedido"
+                             constraintName="fk_pedido_restaurante"
+                             referencedColumnNames="id"
+                             referencedTableName="restaurante"/>
+
+        <addForeignKeyConstraint baseColumnNames="usuario_cliente_id"
+                             baseTableName="pedido"
+                             constraintName="fk_pedido_usuario_cliente"
+                             referencedColumnNames="id"
+                             referencedTableName="usuario"/>
+
+        <addForeignKeyConstraint baseColumnNames="forma_pagamento_id"
+                             baseTableName="pedido"
+                             constraintName="fk_pedido_forma_pagamento"
+                             referencedColumnNames="id"
+                             referencedTableName="forma_pagamento"/>
+
+        <createTable tableName="item_pedido">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="item_pedido_id_pk"/>
+            </column>
+          
+            <column name="quantidade" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preco_unitario" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preco_total" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="observacao" type="varchar(255)"/>
+            <column name="pedido_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+            <column name="produto_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="pedido_id"
+                             baseTableName="item_pedido"
+                             constraintName="fk_item_pedido_pedido"
+                             referencedColumnNames="id"
+                             referencedTableName="pedido"/>
+
+        <addForeignKeyConstraint baseColumnNames="produto_id"
+                             baseTableName="item_pedido"
+                             constraintName="fk_item_pedido_produto"
+                             referencedColumnNames="id"
+                             referencedTableName="produto"/>
+
+        <createTable tableName="restaurante_usuario_responsavel">
+            <column name="restaurante_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+            <column name="usuario_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="restaurante_id"
+                             baseTableName="restaurante_usuario_responsavel"
+                             constraintName="fk_restaurante_usuario_restaurante"
+                             referencedColumnNames="id"
+                             referencedTableName="restaurante"/>
+
+        <addForeignKeyConstraint baseColumnNames="usuario_id"
+                             baseTableName="restaurante_usuario_responsavel"
+                             constraintName="fk_restaurante_usuario_usuario"
+                             referencedColumnNames="id"
+                             referencedTableName="usuario"/>
+
+        <createTable tableName="foto_produto">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="foto_produto_id_pk"/>
+            </column>
+            <column name="nome_arquivo" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="descricao" type="varchar(150)"/>
+            <column name="content_type" type="varchar(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tamanho" type="int">
+               <constraints nullable="false"/>
+            </column>
+            <column name="produto_id" type="bigint">
+               <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="produto_id"
+                            baseTableName="foto_produto"
+                            constraintName="fk_foto_produto_produto"
+                            referencedColumnNames="id"
+                            referencedTableName="produto"/>
+        
+    </changeSet>
+
+</databaseChangeLog>
