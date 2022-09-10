@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity(name = "foto_produto")
+@Entity
 public class FotoProduto {
 
     @Id
@@ -30,5 +30,12 @@ public class FotoProduto {
     @Column(nullable = false)
     private Long tamanho;
 
+    public Long getRestauranteId() {
+        if (getProduto() != null) {
+            return getProduto().getRestaurante().getId();
+        }
+
+        return null;
+    }
 
 }

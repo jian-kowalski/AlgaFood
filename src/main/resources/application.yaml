@@ -20,3 +20,15 @@ spring:
   liquibase:
     change-log: "db/changelog/db.changelog-master.xml"
 # spring.servlet.multipart.max-file-size=8KB
+
+algafood:
+  storage:
+    tipo-storage: S3
+    local:
+      diretorio-fotos: /home/jian/Imagens/catalogo/
+    s3:
+      id-chave-acesso: ${CHAVE_ACESSO}
+      chave-acesso-secreta: ${CHAVE_SECRETA}
+      bucket: ${BUCKET}
+      regiao: ${REGION}
+      diretorio-fotos: ${DIR}
