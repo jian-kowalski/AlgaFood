@@ -1,6 +1,7 @@
 package br.com.jiankowalski.algafood.api.controller;
 
 import br.com.jiankowalski.algafood.api.model.input.FotoProdutoInput;
+import br.com.jiankowalski.algafood.domain.exception.FalhaAoAtualizarImagemProduto;
 import br.com.jiankowalski.algafood.domain.service.ProdutoService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,7 @@ public class RestauranteProdutoFotoController {
             fotoProdutoInput.getArquivo().transferTo(arquivoFoto);
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new FalhaAoAtualizarImagemProduto(e);
         }
     }
 }

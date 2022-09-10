@@ -2,6 +2,7 @@ package br.com.jiankowalski.algafood.api.exceptionhandler;
 
 import br.com.jiankowalski.algafood.domain.exception.EntidadeEmUsoException;
 import br.com.jiankowalski.algafood.domain.exception.EntidadeNaoEncontradaException;
+import br.com.jiankowalski.algafood.domain.exception.FalhaAoAtualizarImagemProduto;
 import br.com.jiankowalski.algafood.domain.exception.NegocioException;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -60,12 +61,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
             String name = objectError.getObjectName();
 
-            if (objectError instanceof FieldError) {
-                name = ((FieldError) objectError).getField();
+            if (objectError instanceof FieldError fieldError) {
+                name = fieldError.getField();
             }
 
             return Problem.Object.builder().name(name).userMessage(message).build();
-        }).collect(Collectors.toList());
+        }).toList();
 
         Problem problem = createProblemBuilder(status, problemType, detail).userMessage(detail).objects(problemObjects)
                 .build();
@@ -73,7 +74,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler({Exception.class, FalhaAoAtualizarImagemProduto.class})
     public ResponseEntity<Object> handleUncaught(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         ProblemType problemType = ProblemType.ERRO_DE_SISTEMA;
@@ -103,8 +104,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status,
                                                         WebRequest request) {
 
-        if (ex instanceof MethodArgumentTypeMismatchException) {
-            return handleMethodArgumentTypeMismatch((MethodArgumentTypeMismatchException) ex, headers, status, request);
+        if (ex instanceof MethodArgumentTypeMismatchException e) {
+            return handleMethodArgumentTypeMismatch(e, headers, status, request);
         }
 
         return super.handleTypeMismatch(ex, headers, status, request);
@@ -139,10 +140,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpStatus status, WebRequest request) {
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
 
-        if (rootCause instanceof InvalidFormatException) {
-            return handleInvalidFormat((InvalidFormatException) rootCause, headers, status, request);
-        } else if (rootCause instanceof PropertyBindingException) {
-            return handlePropertyBinding((PropertyBindingException) rootCause, headers, status, request);
+        if (rootCause instanceof InvalidFormatException cause) {
+            return handleInvalidFormat(cause, headers, status, request);
+        } else if (rootCause instanceof PropertyBindingException cause) {
+            return handlePropertyBinding(cause, headers, status, request);
         }
 
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
@@ -229,8 +230,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         if (body == null) {
             body = Problem.builder().timestamp(OffsetDateTime.now()).title(status.getReasonPhrase()).status(status.value())
                     .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL).build();
-        } else if (body instanceof String) {
-            body = Problem.builder().timestamp(OffsetDateTime.now()).title((String) body).status(status.value())
+        } else if (body instanceof String msg) {
+            body = Problem.builder().timestamp(OffsetDateTime.now()).title(msg).status(status.value())
                     .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL).build();
         }
 
