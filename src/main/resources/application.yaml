@@ -19,6 +19,12 @@ spring:
       add-mappings: false
   liquibase:
     change-log: "db/changelog/db.changelog-master.xml"
+  mail:
+    host: smtp.sendgrid.net
+    port: 587
+    username: apikey
+    password: ${MAIL_KEY}
+
 # spring.servlet.multipart.max-file-size=8KB
 
 algafood:
@@ -32,3 +38,6 @@ algafood:
       bucket: ${BUCKET}
       regiao: ${REGION}
       diretorio-fotos: ${DIR}
+  email:
+    remetente: AlgaFood <jian_kowalski@hotmail.com>
+
