@@ -3,6 +3,7 @@ package br.com.jiankowalski.algafood.domain.service;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface EnvioEmailService {
@@ -15,5 +16,6 @@ public interface EnvioEmailService {
         private Set<String> destinatarios;
         private String assunto;
         private String corpo;
+        private Map<String, Object> variaveis;
     }
 }

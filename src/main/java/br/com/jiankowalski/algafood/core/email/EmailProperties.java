@@ -17,4 +17,11 @@ public class EmailProperties {
 
     @NotNull
     private String remetente;
+
+    private TipoEnvio tipoEnvio = TipoEnvio.DEV;
+
+    enum TipoEnvio {
+        DEV,
+        PROD
+    }
 }

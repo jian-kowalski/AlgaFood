@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 
 @Service
@@ -23,7 +24,8 @@ public class FluxoPedidoService {
         pedido.confirmar();
         var msg = EnvioEmailService.Mensagem.builder()
                 .assunto(pedido.getRestaurante().getNome())
-                .corpo(pedido.getCodigo() + "foi confirmado")
+                .corpo("pedido-confirmado.html")
+                .variaveis(new HashMap<>(Collections.singletonMap("pedido", pedido)))
                 .destinatarios(new HashSet<>(Collections.singletonList(pedido.getCliente().getEmail())))
                 .build();
         envioEmailService.enviar(msg);

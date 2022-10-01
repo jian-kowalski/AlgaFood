@@ -24,6 +24,9 @@ spring:
     port: 587
     username: apikey
     password: ${MAIL_KEY}
+  freemarker:
+    settings:
+      locale: pt_BR
 
 # spring.servlet.multipart.max-file-size=8KB
 
@@ -40,4 +43,4 @@ algafood:
       diretorio-fotos: ${DIR}
   email:
     remetente: AlgaFood <jian_kowalski@hotmail.com>
-
+    tipo-envio: PROD
